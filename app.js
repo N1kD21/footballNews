@@ -10,8 +10,10 @@ const port          = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.urlencoded());
 
-app.get('/', function(req, res) {
+app.get('/api', function(req, res) {
+//    console.log('14. req.body >>> ', req.route.path);
     res.sendFile(path.join(__dirname + '/index.html'));
+    res.send('Ответ от API на Хероку  ->  путь к запросу ' + req.route.path)
 });
 
 
