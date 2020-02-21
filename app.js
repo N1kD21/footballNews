@@ -11,11 +11,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.urlencoded());
 
 app.get('/api', function(req, res) {
-//    console.log('14. req.body >>> ', req.route.path);
-    res.sendFile(path.join(__dirname + '/index.html'));
+//    res.sendFile(path.join(__dirname + '/index.html'));
     res.send('Ответ от API на Хероку  ->  путь к запросу ' + req.route.path)
 });
-
 
 app.post('/url', function(req, res) {
     const url = req.body.url;
@@ -25,5 +23,28 @@ app.post('/url', function(req, res) {
     });
 });
 
-
 app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
+
+
+// ---------------------------
+
+const TelegramBot = require('node-telegram-bot-api');
+
+const token = '963395136:AAEqfi-IiClqqxnMG0PijAFr04w_LfjINOE';
+
+
+const options = {
+  webHook: {
+    port: process.env.PORT
+  }
+};
+const url = 'https://glacial-savannah-66316.herokuapp.com:443';
+const bot = new TelegramBot(token, options);
+
+bot.setWebHook(`${url}/bot${token}`);
+
+
+// Just to ping!
+bot.on('message', function onMessage(msg) {
+  bot.sendMessage(msg.chat.id, 'I am alive on Heroku!');
+});
