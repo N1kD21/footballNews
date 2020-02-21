@@ -38,10 +38,10 @@ const options = {
     port: process.env.PORT
   }
 };
-const url = 'https://glacial-savannah-66316.herokuapp.com:443';
+const urlTelegram = 'https://glacial-savannah-66316.herokuapp.com:443';
 const bot = new TelegramBot(token, options);
 
-bot.setWebHook(`${url}/bot${token}`);
+bot.setWebHook(`${urlTelegram}/bot${token}`);
 
 
 // Just to ping!
