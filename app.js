@@ -5,7 +5,7 @@ const bodyParser    = require('body-parser');
 const urlShortener  = require('node-url-shortener');
 
 
-const port          = process.env.PORT || 3000;
+const port          =  3000;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.urlencoded());
@@ -35,7 +35,7 @@ const token = '963395136:AAEqfi-IiClqqxnMG0PijAFr04w_LfjINOE';
 
 const options = {
   webHook: {
-    port:   3000
+    port:   process.env.PORT
   }
 };
 const urlTelegram = 'https://glacial-savannah-66316.herokuapp.com:443';
