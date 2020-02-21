@@ -12,7 +12,7 @@ app.use(express.urlencoded());
 
 app.get('/api', function(req, res) {
 //    res.sendFile(path.join(__dirname + '/index.html'));
-    res.send('Ответ от API на Хероку  ->  путь к запросу ' + req.route.path)
+    res.send('Ответ от API на Хероку  ->  путь к запросу ' + req.route.path);
 });
 
 app.post('/url', function(req, res) {
