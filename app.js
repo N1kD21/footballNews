@@ -87,7 +87,8 @@ const http = require('http');
 
 // Put your middleware and routes here...
 
-const server = app.listen(port, bot.middleware());
-bot.setWebhook('https://glacial-savannah-66316.herokuapp.com:443');
+const server = app.listen(port, function(err){
+      console.log("Express server running on port:" + port);
+});
 
 var io = SocketIO(server);
