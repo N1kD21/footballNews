@@ -79,5 +79,5 @@ if (process.env.NOW_URL || process.env.HEROKU_URL) {
 
     http.createServer(bot.middleware()).listen(port, () => bot.setWebhook(process.env.NOW_URL || process.env.HEROKU_URL));
 } else {
-    logger.debug('Could not find the now.sh/Heroku environment variables. Please make sure you followed readme guide.');
+    console.log('Could not find the now.sh/Heroku environment variables. Please make sure you followed readme guide.');
 }
