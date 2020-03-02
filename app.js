@@ -6,7 +6,7 @@ const urlShortener  = require('node-url-shortener');
 
 
 const port          = process.env.PORT || 3000;
-
+console.log('9. port >>> ', port);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.urlencoded());
 
@@ -75,9 +75,9 @@ const bot = new ViberBot({
 
 if (process.env.NOW_URL || process.env.HEROKU_URL) {
     const http = require('http');
-    const port = process.env.PORT || 8080;
-
-    http.createServer(bot.middleware()).listen(port, () => bot.setWebhook(process.env.NOW_URL || process.env.HEROKU_URL));
+    const portViber = process.env.PORT || 8080;
+    console.log('79. portViber >>> ', portViber);
+    http.createServer(bot.middleware()).listen(portViber, () => bot.setWebhook(process.env.NOW_URL || process.env.HEROKU_URL));
 } else {
     console.log('Could not find the now.sh/Heroku environment variables. Please make sure you followed readme guide.');
 }
