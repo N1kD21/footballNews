@@ -14,6 +14,7 @@
     "node-telegram-bot-api": "^0.40.0",
     "node-url-shortener": "^1.0.1",
     "request": "^2.88.2",
+    "socket.io": "^2.3.0",
     "viber-bot": "^1.0.16"
   }
 }
