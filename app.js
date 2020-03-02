@@ -27,12 +27,11 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 
-
+//------Telegram
 
 const TelegramBot = require('node-telegram-bot-api');
 
 const token = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
-
 
 const botTelegram = new TelegramBot(token, {polling: true});
 
@@ -62,7 +61,8 @@ botTelegram.on('message', (msg) => {
 });
 
 
-
+//-----Viber
+/*
 const ViberBot  = require('viber-bot').Bot;
 const BotEvents = require('viber-bot').Events;
 const TextMessage = require('viber-bot').Message.Text;
@@ -81,3 +81,4 @@ if (process.env.NOW_URL || 'https://glacial-savannah-66316.herokuapp.com:443') {
 } else {
     console.log('Could not find the now.sh/Heroku environment variables. Please make sure you followed readme guide.');
 }
+*/
