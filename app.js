@@ -83,6 +83,7 @@ if (process.env.NOW_URL || 'https://glacial-savannah-66316.herokuapp.com:443') {
 */
 
 var SocketIO = require('socket.io');
+const http = require('http');
 
 // Put your middleware and routes here...
 
