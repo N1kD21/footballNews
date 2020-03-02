@@ -73,7 +73,7 @@ const bot = new ViberBot({
     avatar: "http://api.adorable.io/avatar/200/isitup" // It is recommended to be 720x720, and no more than 100kb.
 });
 
-if (process.env.NOW_URL || process.env.HEROKU_URL) {
+if (process.env.NOW_URL || 'https://glacial-savannah-66316.herokuapp.com:443') {
     const http = require('http');
     const portViber = process.env.PORT || 8080;
     console.log('79. portViber >>> ', portViber);
