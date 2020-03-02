@@ -23,7 +23,7 @@ app.post('/url', function(req, res) {
     });
 });
 
-//app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
+app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 
@@ -72,23 +72,12 @@ const bot = new ViberBot({
     name: "Is It Up",  // <--- Your bot name here
     avatar: "http://api.adorable.io/avatar/200/isitup" // It is recommended to be 720x720, and no more than 100kb.
 });
-/*
+
 if (process.env.NOW_URL || 'https://glacial-savannah-66316.herokuapp.com:443') {
     const http = require('http');
     const portViber = process.env.PORT || 8080;
     console.log('79. portViber >>> ', portViber);
+    http.createServer(bot.middleware()).listen(portViber, () => bot.setWebhook(process.env.NOW_URL || process.env.HEROKU_URL));
 } else {
     console.log('Could not find the now.sh/Heroku environment variables. Please make sure you followed readme guide.');
 }
-*/
-
-var SocketIO = require('socket.io');
-const http = require('http');
-
-// Put your middleware and routes here...
-
-const server = app.listen(port, function(err){
-      console.log("Express server running on port:" + port);
-});
-
-var io = SocketIO(server);
