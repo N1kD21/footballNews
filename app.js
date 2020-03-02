@@ -89,7 +89,7 @@ const http = require('http');
 
 const server = app.listen(port, function(err){
       console.log("Express server running on port:" + port);
-      http.createServer(bot.middleware()).listen(port, () => bot.setWebhook('https://glacial-savannah-66316.herokuapp.com:443'));
+      bot.setWebhook('https://glacial-savannah-66316.herokuapp.com:443');
 });
 
 var io = SocketIO(server);
