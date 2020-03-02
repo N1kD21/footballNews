@@ -68,7 +68,7 @@ const BotEvents = require('viber-bot').Events;
 const TextMessage = require('viber-bot').Message.Text;
 
 const bot = new ViberBot({
-    authToken: "Your account access token goes here", // <--- Paste your token here
+    authToken: "48fcf2eb7d67d26f-316a69dfbfaeb0fd-74efc5752a3d4f45", // <--- Paste your token here
     name: "Is It Up",  // <--- Your bot name here
     avatar: "http://api.adorable.io/avatar/200/isitup" // It is recommended to be 720x720, and no more than 100kb.
 });
