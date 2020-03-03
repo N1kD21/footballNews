@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "express": "^4.17.1",
+    "node-fetch": "^2.6.0",
     "node-telegram-bot-api": "^0.40.0",
     "node-url-shortener": "^1.0.1",
     "request": "^2.88.2",
