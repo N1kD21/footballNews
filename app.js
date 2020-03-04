@@ -34,24 +34,30 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-
-
 const token = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
-
 const botTelegram = new TelegramBot(token, {polling: true});
 
 botTelegram.onText(/(.+)/, async (msg, match) => {
   const chatId          = msg.chat.id;
   const resp            = match[1]; // the captured "whatever"
-  botTelegram.sendMessage(chatId, 'I am alive on Heroku!');
+
+  var options = {
+  reply_markup: JSON.stringify({
+    inline_keyboard: [
+      [{ text: 'Кнопка 1', callback_data: '1' }],
+      [{ text: 'Кнопка 2', callback_data: 'data 2' }],
+      [{ text: 'Кнопка 3', callback_data: 'text 3' }]
+    ]
+  })
+};
+
   let otvetAllSportsAPI = await zaprosFootball();
   for (var indexLeague = 0; indexLeague < otvetAllSportsAPI.length; indexLeague++) {
-    botTelegram.sendMessage(chatId, `${otvetAllSportsAPI[indexLeague].name} is ${otvetAllSportsAPI[indexLeague].plan} League`);
+    botTelegram.sendMessage(chatId, `${otvetAllSportsAPI[indexLeague].name} is ${otvetAllSportsAPI[indexLeague].plan} League`, options);
   }
-//  console.log('48. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
 });
 
 botTelegram.on('message', (msg) => {
   const chatId = msg.chat.id;
-  
+
 });

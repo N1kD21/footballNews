@@ -26,7 +26,6 @@ async function searchInArray(array) {
 async function zaprosFootball(){
   let otvetAllSportsAPI = await fetchFootball(urlCountry);
   let tierOneLeagues    = await searchInArray(otvetAllSportsAPI.competitions)
-  console.log('18. tierOneLeagues >>> ', tierOneLeagues);
   return tierOneLeagues;
 }
 
