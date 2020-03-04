@@ -5,7 +5,7 @@ const bodyParser      = require('body-parser');
 const urlShortener    = require('node-url-shortener');
 const TelegramBot     = require('node-telegram-bot-api');
 
-const zaprosFixtures  = require('./requestAllFootball.js');
+const zaprosFootball  = require('./requestAllFootball.js');
 
 
 
@@ -44,10 +44,14 @@ botTelegram.onText(/(.+)/, async (msg, match) => {
   const chatId          = msg.chat.id;
   const resp            = match[1]; // the captured "whatever"
   botTelegram.sendMessage(chatId, 'I am alive on Heroku!');
-//  let otvetAllSportsAPI = await zaprosFixtures();
+  let otvetAllSportsAPI = await zaprosFootball();
+  for (var indexLeague = 0; indexLeague < otvetAllSportsAPI.length; indexLeague++) {
+    botTelegram.sendMessage(chatId, `${otvetAllSportsAPI[indexLeague].name} is ${otvetAllSportsAPI[indexLeague].plan} League`);
+  }
 //  console.log('48. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
 });
 
 botTelegram.on('message', (msg) => {
   const chatId = msg.chat.id;
+  
 });

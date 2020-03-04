@@ -1,33 +1,35 @@
 'use strict';
 
-const ALL_SPORTS_API_KEY  = 'TBDIXZD08gaw9YuObMutL5hasW8PzgrAaEbM55BU';
-const urlFixtures         = `https://data.football-api.com/v3/competitions?Authorization=TBDIXZD08gaw9YuObMutL5hasW8PzgrAaEbM55BU`;
-console.log('5. urlFixtures >>> ', urlFixtures);
-const httpsFootball       = require('https');
-const httpFootball        = require('http');
+const fetch       = require('node-fetch');
+const urlCountry  = `https://api.football-data.org/v2/competitions`;
 
-const fetchFootball = urlFootball => new Promise((resolve, reject) => {
-  let protocolZaprosaFootball = '';
-  if (urlFootball.startsWith('https')) {
-    protocolZaprosaFootball     = httpsFootball;
-  } else {
-    protocolZaprosaFootball     = httpFootball;
-  }
-  protocolZaprosaFootball.get(urlFootball, resOtvetFootball => {
-    const bufferOtvetaFootball = [];
-    resOtvetFootball.on('data', chunkOtvetaFootball => {
-      bufferOtvetaFootball.push(chunkOtvetaFootball)
-    });
-    resOtvetFootball.on('end', () => resolve(bufferOtvetaFootball.join()));
+
+async function fetchFootball(url) {
+  return new Promise(function(resolve, reject) {
+    fetch(url)
+        .then(res => res.json())
+        .then(json => resolve(json));
   });
-});
+}
+
+
+async function searchInArray(array) {
+  let newArray = [];
+  for (var i = 0; i < array.length; i++) {
+    if (array[i].plan === 'TIER_ONE') {
+      newArray.push(array[i]);
+    }
+  }
+  return newArray;
+}
+
+async function zaprosFootball() => {
+  let otvetAllSportsAPI = await fetchFootball(urlCountry);
+  let tierOneLeagues    = await searchInArray(otvetAllSportsAPI.competitions)
+  console.log('18. tierOneLeagues >>> ', tierOneLeagues);
+  return tierOneLeagues;
+}
 
 
 
-(async() => {
-  let otvetAllSportsAPI = await fetchFootball(urlFixtures);
-  console.log('18. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
-})()
-
-
-//module.exports = zaprosFixtures;
+module.exports = zaprosFootball;
