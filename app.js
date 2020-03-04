@@ -44,8 +44,8 @@ botTelegram.onText(/(.+)/, async (msg, match) => {
   const chatId          = msg.chat.id;
   const resp            = match[1]; // the captured "whatever"
   botTelegram.sendMessage(chatId, 'I am alive on Heroku!');
-  let otvetAllSportsAPI = await zaprosFixtures();
-  console.log('48. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
+//  let otvetAllSportsAPI = await zaprosFixtures();
+//  console.log('48. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
 });
 
 botTelegram.on('message', (msg) => {
