@@ -16,10 +16,11 @@ async function searchInArray(array) {
   let newArray = [];
   for (var i = 0; i < array.length; i++) {
     if (array[i].plan === 'TIER_ONE') {
+      console.log('19. array[i] >>> ', array[i]);
       newArray.push(array[i]);
     }
   }
-  console.log('22. newArray >>> ', newArray);
+//  console.log('22. newArray >>> ', newArray);
   return newArray;
 }
 
@@ -31,7 +32,7 @@ async function zaprosFootball(flugF){
     }
 */
     let otvetAllSportsAPI = await fetchFootball(urlGlobal);
-    console.log('28. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
+//    console.log('28. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
     let tierOneLeagues    = await searchInArray(otvetAllSportsAPI.competitions)
     resolve(tierOneLeagues)
   });
