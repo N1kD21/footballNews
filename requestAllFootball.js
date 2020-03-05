@@ -24,9 +24,11 @@ async function searchInArray(array) {
 
 async function zaprosFootball(flugF){
   return new Promise(async function (resolve, reject) {
+/*
     if (flugF == 'undefaul') {
       let urlGlobal  = `http://api.football-data.org/v2/areas`;
     }
+*/
     let otvetAllSportsAPI = await fetchFootball(urlGlobal);
     console.log('28. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
     let tierOneLeagues    = await searchInArray(otvetAllSportsAPI.competitions)

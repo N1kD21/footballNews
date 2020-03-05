@@ -40,12 +40,13 @@ const botTelegram = new TelegramBot(token, {polling: true});
 botTelegram.onText(/(.+)/, async (msg, match) => {
   const chatId          = msg.chat.id;
   const resp            = match[1]; // the captured "whatever"
+/*
   let flug              = 'default';
   if (msg.text == '123') {
     flug = 'undefault';
   }
-
-  let otvetAllSportsAPI = await zaprosFootball(flug);
+*/
+  let otvetAllSportsAPI = await zaprosFootball();
   console.log('49. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
   for (var indexLeague = 0; indexLeague < otvetAllSportsAPI.length; indexLeague++) {
     botTelegram.sendMessage(chatId, `${otvetAllSportsAPI[indexLeague].name} is ${otvetAllSportsAPI[indexLeague].plan} Tournament`);
