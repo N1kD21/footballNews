@@ -19,6 +19,7 @@ async function searchInArray(array) {
       newArray.push(array[i]);
     }
   }
+  console.log('22. newArray >>> ', newArray);
   return newArray;
 }
 
