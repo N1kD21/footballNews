@@ -23,14 +23,15 @@ async function searchInArray(array) {
 }
 
 async function zaprosFootball(flugF){
-  if (flugF == 'undefaul') {
-    let urlGlobal  = `http://api.football-data.org/v2/areas`;
-  }
-  let otvetAllSportsAPI = await fetchFootball(urlGlobal);
-  console.log('28. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
-  let tierOneLeagues    = await searchInArray(otvetAllSportsAPI.competitions)
-
-  return tierOneLeagues;
+  return new Promise(function(resolve, reject) {
+    if (flugF == 'undefaul') {
+      let urlGlobal  = `http://api.football-data.org/v2/areas`;
+    }
+    let otvetAllSportsAPI = await fetchFootball(urlGlobal);
+    console.log('28. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
+    let tierOneLeagues    = await searchInArray(otvetAllSportsAPI.competitions)
+    resolve(tierOneLeagues)
+  });
 }
 
 //zaprosFootball();
