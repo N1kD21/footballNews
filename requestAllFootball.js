@@ -7,7 +7,7 @@ async function fetchFootball(url) {
   return new Promise(function(resolve, reject) {
     fetch(url, {'X-Auth-Token'    : '1adde7c0d93044ba92b649eb9e221a81'})
         .then(res => res.json()) // expecting a json response
-        .then(json => console.log(json));
+        .then(json => resolve(json));
   });
 }
 
@@ -16,7 +16,7 @@ async function searchInArray(array) {
   let newArray = [];
   for (var i = 0; i < array.length; i++) {
     if (array[i].plan === 'TIER_ONE') {
-      console.log('19. array[i] >>> ', array[i]);
+//      console.log('19. array[i] >>> ', array[i]);
       newArray.push(array[i]);
     }
   }
