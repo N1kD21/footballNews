@@ -16,23 +16,20 @@ async function searchInArray(array) {
   let newArray = [];
   for (var i = 0; i < array.length; i++) {
     if (array[i].plan === 'TIER_ONE') {
-//      console.log('19. array[i] >>> ', array[i]);
       newArray.push(array[i]);
     }
   }
-//  console.log('22. newArray >>> ', newArray);
   return newArray;
 }
 
 async function zaprosFootball(flugF){
   return new Promise(async function (resolve, reject) {
-/*
+
     if (flugF == 'undefaul') {
       let urlGlobal  = `http://api.football-data.org/v2/areas`;
     }
-*/
+
     let otvetAllSportsAPI = await fetchFootball(urlGlobal);
-//    console.log('28. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
     let tierOneLeagues    = await searchInArray(otvetAllSportsAPI.competitions)
     resolve(tierOneLeagues)
   });
