@@ -46,6 +46,7 @@ botTelegram.onText(/(.+)/, async (msg, match) => {
   }
 
   let otvetAllSportsAPI = await zaprosFootball(flug);
+  console.log('49. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
   for (var indexLeague = 0; indexLeague < otvetAllSportsAPI.length; indexLeague++) {
     botTelegram.sendMessage(chatId, `${otvetAllSportsAPI[indexLeague].name} is ${otvetAllSportsAPI[indexLeague].plan} Tournament`);
   }
