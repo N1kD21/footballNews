@@ -1,14 +1,13 @@
 'use strict';
 
 const fetch       = require('node-fetch');
-const urlCountry  = `https://api.football-data.org/v2/competitions`;
-
+let urlGlobal  = `https://api.football-data.org/v2/competitions/`;
 
 async function fetchFootball(url) {
   return new Promise(function(resolve, reject) {
-    fetch(url)
-        .then(res => res.json())
-        .then(json => resolve(json));
+    fetch(url, {'X-Auth-Token'    : '1adde7c0d93044ba92b649eb9e221a81'})
+        .then(res => res.json()) // expecting a json response
+        .then(json => console.log(json));
   });
 }
 
@@ -23,12 +22,17 @@ async function searchInArray(array) {
   return newArray;
 }
 
-async function zaprosFootball(){
-  let otvetAllSportsAPI = await fetchFootball(urlCountry);
+async function zaprosFootball(flugF){
+  if (flugF == 'undefaul') {
+    let urlGlobal  = `http://api.football-data.org/v2/areas`;
+  }
+  let otvetAllSportsAPI = await fetchFootball(urlGlobal);
+  console.log('28. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
   let tierOneLeagues    = await searchInArray(otvetAllSportsAPI.competitions)
+
   return tierOneLeagues;
 }
 
-
+//zaprosFootball();
 
 module.exports = zaprosFootball;
