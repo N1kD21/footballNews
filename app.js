@@ -35,8 +35,12 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-const token = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
+const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
+const chatIdChanelNews  = '1001382295148';
+
 const botTelegram = new TelegramBot(token, {polling: true});
+
+
 
 botTelegram.onText(/(.+)/, async (msg, match) => {
   const chatId          = msg.chat.id;
@@ -55,9 +59,9 @@ botTelegram.onText(/(.+)/, async (msg, match) => {
   setInterval(async () => {
     let otvetGoogleNewsApiInteval = await zaprosFootballNews();
     otvetGoogleNewsApiInteval.forEach(async(itemArticle) => {
-      await sayMessage(chatId, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
+      await sayMessage(chatIdChanelNews, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
     });
-  }, 300000);
+  }, 7200000);
 });
 
 async function sayPhoto(chatIdSay, urlPhoto) {
