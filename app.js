@@ -5,7 +5,8 @@ const bodyParser      = require('body-parser');
 const urlShortener    = require('node-url-shortener');
 const TelegramBot     = require('node-telegram-bot-api');
 
-const zaprosFootball  = require('./requestAllFootball.js');
+const zaprosFootball      = require('./requestAllFootball.js');
+const zaprosFootballNews  = require('./googleNewsAPI.js');
 
 
 
@@ -41,19 +42,26 @@ botTelegram.onText(/(.+)/, async (msg, match) => {
   const chatId          = msg.chat.id;
   const resp            = match[1]; // the captured "whatever"
 
-  let flug              = 'default';
-  if (msg.text == '123') {
-    flug = 'undefault';
-  }
-
   let otvetAllSportsAPI = await zaprosFootball(flug);
-  console.log('49. otvetAllSportsAPI >>> ', otvetAllSportsAPI);
   for (var indexLeague = 0; indexLeague < otvetAllSportsAPI.length; indexLeague++) {
     botTelegram.sendMessage(chatId, `${otvetAllSportsAPI[indexLeague].name} is ${otvetAllSportsAPI[indexLeague].plan} Tournament`);
   }
+
+  //google news api
+  let otvetGoogleNewsAPI = await zaprosFootballNews();
+  for (var indexArticle = 0; indexArticle < otvetGoogleNewsAPI.length; indexArticle++) {
+    await sayPhoto(chatId, otvetGoogleNewsAPI[indexArticle].immageUrl)
+    await sayMessage(chatId, `${otvetGoogleNewsAPI[indexArticle].zagolovok}\n${otvetGoogleNewsAPI[indexArticle].author}\n${otvetGoogleNewsAPI[indexArticle].nameResourse}\n${otvetGoogleNewsAPI[indexArticle].dataPublished});
+  }
+
+
 });
 
-botTelegram.on('message', (msg) => {
-  const chatId = msg.chat.id;
+async function sayPhoto(chatIdSay, urlPhoto) {
+  botTelegram.sendPhoto(chatIdSay, urlPhoto);
+}
 
-});
+
+async function sayMessage(chatIdSay, messageSay) {
+  botTelegram.sendMessage(chatIdSay, messageSay);
+}
