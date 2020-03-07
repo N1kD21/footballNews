@@ -56,13 +56,15 @@ botTelegram.onText(/(.+)/, async (msg, match) => {
 
 
 
-setInterval(() => {
+
+setInterval(async () => {
   let otvetGoogleNewsApiInteval = await zaprosFootballNews();
   otvetGoogleNewsApiInteval.forEach(async(itemArticle) => {
-//    await sayPhoto(chatId, itemArticle.immageUrl)
     await sayMessage(chatId, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
   });
 }, 300000);
+
+
 
 async function sayPhoto(chatIdSay, urlPhoto) {
   botTelegram.sendPhoto(chatIdSay, urlPhoto);
