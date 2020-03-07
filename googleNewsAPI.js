@@ -10,17 +10,6 @@ async function fetchFootballNews(url) {
   });
 }
 
-/*
-async function searchInArray(array) {
-  let newArray = [];
-  for (var i = 0; i < array.length; i++) {
-    if (array[i].plan === 'TIER_ONE') {
-      newArray.push(array[i]);
-    }
-  }
-  return newArray;
-}
-*/
 
 async function zaprosFootballNews(){
   const API_KEY_GOOGLE    = '6f06874cc0a64418a5f03728e3c6744f';
@@ -39,8 +28,7 @@ async function zaprosFootballNews(){
         dataPublished : elementMassivu.publishedAt
       })
     }
-    console.log('35. dani_na_povernennia >>> ', dani_na_povernennia);
-
+    resolve(dani_na_povernennia);
   });
 }
 

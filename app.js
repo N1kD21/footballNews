@@ -41,26 +41,32 @@ const botTelegram = new TelegramBot(token, {polling: true});
 botTelegram.onText(/(.+)/, async (msg, match) => {
   const chatId          = msg.chat.id;
   const resp            = match[1]; // the captured "whatever"
-
-  let otvetAllSportsAPI = await zaprosFootball(flug);
-  for (var indexLeague = 0; indexLeague < otvetAllSportsAPI.length; indexLeague++) {
-    botTelegram.sendMessage(chatId, `${otvetAllSportsAPI[indexLeague].name} is ${otvetAllSportsAPI[indexLeague].plan} Tournament`);
-  }
+  let otvetAllSportsAPI = await zaprosFootball();
+  otvetAllSportsAPI.forEach(async(itemLeague) => {
+    await sayMessage(chatId, `${itemLeague.name} is ${itemLeague.plan} Tournament`);
+  });
 
   //google news api
   let otvetGoogleNewsAPI = await zaprosFootballNews();
-  for (var indexArticle = 0; indexArticle < otvetGoogleNewsAPI.length; indexArticle++) {
-    await sayPhoto(chatId, otvetGoogleNewsAPI[indexArticle].immageUrl)
-    await sayMessage(chatId, `${otvetGoogleNewsAPI[indexArticle].zagolovok}\n${otvetGoogleNewsAPI[indexArticle].author}\n${otvetGoogleNewsAPI[indexArticle].nameResourse}\n${otvetGoogleNewsAPI[indexArticle].dataPublished});
-  }
-
-
+  otvetGoogleNewsAPI.forEach(async(itemArticle) => {
+//    await sayPhoto(chatId, itemArticle.immageUrl)
+    await sayMessage(chatId, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
+  });
 });
+
+
+
+setInterval(() => {
+  let otvetGoogleNewsApiInteval = await zaprosFootballNews();
+  otvetGoogleNewsApiInteval.forEach(async(itemArticle) => {
+//    await sayPhoto(chatId, itemArticle.immageUrl)
+    await sayMessage(chatId, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
+  });
+}, 300000);
 
 async function sayPhoto(chatIdSay, urlPhoto) {
   botTelegram.sendPhoto(chatIdSay, urlPhoto);
 }
-
 
 async function sayMessage(chatIdSay, messageSay) {
   botTelegram.sendMessage(chatIdSay, messageSay);
