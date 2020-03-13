@@ -35,8 +35,8 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-const token             = '';
-const chatIdChanelNews  = '-';
+const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
+const chatIdChanelNews  = '-1001382295148';
 
 const botTelegram = new TelegramBot(token, {polling: true});
 
@@ -62,7 +62,7 @@ setInterval(async () => {
   otvetGoogleNewsApiInteval.forEach(async(itemArticle) => {
     await sayMessage(chatIdChanelNews, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
   });
-}, 7200000);
+}, 14800000);
 
 async function sayPhoto(chatIdSay, urlPhoto) {
   botTelegram.sendPhoto(chatIdSay, urlPhoto);
