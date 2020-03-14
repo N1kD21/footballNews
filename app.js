@@ -52,11 +52,6 @@ botTelegram.onText(/(.+)/, async (msg, match) => {
 
   //google news api
   let otvetGoogleNewsAPI = await zaprosFootballNews();
-/*
-  otvetGoogleNewsAPI.forEach(async(itemArticle) => {
-    await sayMessage(chatId, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
-  });
-*/
   vivodGoogleNews(otvetGoogleNewsAPI, chatId);
   bufer = otvetGoogleNewsAPI;
 });
@@ -64,27 +59,17 @@ botTelegram.onText(/(.+)/, async (msg, match) => {
 setInterval(async () => {
   let otvetGoogleNewsApiInteval = await zaprosFootballNews();
   if (counter == 0) {
-/*
-    otvetGoogleNewsApiInteval.forEach(async(itemArticle) => {
-      await sayMessage(chatIdChanelNews, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
-    });
-*/
     vivodGoogleNews(otvetGoogleNewsApiInteval, chatIdChanelNews);
     bufer = otvetGoogleNewsApiInteval;
     counter++;
   } else {
     let otvetGoogleNewsApiIntevalFilter = await searchInArray(otvetGoogleNewsApiInteval, bufer);
     if (otvetGoogleNewsApiIntevalFilter.length != 0) {
-/*
-      otvetGoogleNewsApiIntevalFilter.forEach(async(itemArticle) => {
-        await sayMessage(chatIdChanelNews, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
-      });
-*/
       vivodGoogleNews(otvetGoogleNewsApiIntevalFilter, chatIdChanelNews);
     }
     bufer = otvetGoogleNewsApiIntevalFilter;
   }
-}, 6000);
+}, 7200000);
 
 
 
