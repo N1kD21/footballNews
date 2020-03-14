@@ -35,8 +35,8 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-const token             = '';
-const chatIdChanelNews  = '-';
+const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
+const chatIdChanelNews  = '-1001382295148';
 let counter             = 0;
 let bufer               = [];
 
@@ -52,31 +52,47 @@ botTelegram.onText(/(.+)/, async (msg, match) => {
 
   //google news api
   let otvetGoogleNewsAPI = await zaprosFootballNews();
+/*
   otvetGoogleNewsAPI.forEach(async(itemArticle) => {
     await sayMessage(chatId, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
   });
+*/
+  vivodGoogleNews(otvetGoogleNewsAPI, chatId);
   bufer = otvetGoogleNewsAPI;
 });
 
 setInterval(async () => {
   let otvetGoogleNewsApiInteval = await zaprosFootballNews();
   if (counter == 0) {
+/*
     otvetGoogleNewsApiInteval.forEach(async(itemArticle) => {
       await sayMessage(chatIdChanelNews, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
     });
+*/
+    vivodGoogleNews(otvetGoogleNewsApiInteval, chatIdChanelNews);
     bufer = otvetGoogleNewsApiInteval;
     counter++;
   } else {
     let otvetGoogleNewsApiIntevalFilter = await searchInArray(otvetGoogleNewsApiInteval, bufer);
     if (otvetGoogleNewsApiIntevalFilter.length != 0) {
+/*
       otvetGoogleNewsApiIntevalFilter.forEach(async(itemArticle) => {
         await sayMessage(chatIdChanelNews, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
       });
+*/
+      vivodGoogleNews(otvetGoogleNewsApiIntevalFilter, chatIdChanelNews);
     }
     bufer = otvetGoogleNewsApiIntevalFilter;
   }
 }, 6000);
 
+
+
+async function vivodGoogleNews(array, chatIdGoogle) {
+  array.forEach(async(itemArticle) => {
+    await sayMessage(chatIdGoogle, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
+  });
+}
 
 async function searchInArray(arrayStaroe, arrayNovoe) {
   let otvet1;
