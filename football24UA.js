@@ -14,12 +14,13 @@ async function fetchFootball24UA(urlFetch) {
 
 
 async function zapitDoFootball24UA(url) {
-  let htmlFootball24UA = await fetchFootball24UA(url);
-  const $           = cheerio.load(htmlFootball24UA, {decodeEntities: false})
-  let vivodMassiv   = $('p')
-  let massivTag     = [];
-  let massivTagText = [];
-  let newArray      = [];
+  console.log('17');
+  let htmlFootball24UA  = await fetchFootball24UA(url);
+  const $               = cheerio.load(htmlFootball24UA, {decodeEntities: false})
+  let vivodMassiv       = $('p')
+  let massivTag         = [];
+  let massivTagText     = [];
+  let newArray          = [];
 
   vivodMassiv.each(function(indexElementaClassa) {
     let elementClassHtml              = $(this);

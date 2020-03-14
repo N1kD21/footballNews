@@ -12,15 +12,12 @@ const zaprosFootballNews  = require('./googleNewsAPI.js');
 
 // ------ API
 const port            = process.env.PORT || 3000;
-console.log('9. port >>> ', port);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.urlencoded());
-
 app.get('/api', function(req, res) {
 //    res.sendFile(path.join(__dirname + '/index.html'));
     res.send('Ответ от API на Хероку  ->  путь к запросу ' + req.route.path);
 });
-
 app.post('/url', function(req, res) {
     const url = req.body.url;
 
@@ -28,20 +25,17 @@ app.post('/url', function(req, res) {
         res.send(shortUrl);
     });
 });
-
 app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
-
 //-------API
 
 
 //------Telegram
-const token             = '';
-const chatIdChanelNews  = '-';
+const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
+const chatIdChanelNews  = '-1001382295148';
 let counter             = 0;
 let bufer               = [];
 
 const botTelegram = new TelegramBot(token, {polling: true});
-
 botTelegram.onText(/(.+)/, async (msg, match) => {
   const chatId          = msg.chat.id;
   const resp            = match[1]; // the captured "whatever"
@@ -72,10 +66,9 @@ setInterval(async () => {
 }, 7200000);
 
 
-
 async function vivodGoogleNews(array, chatIdGoogle) {
   array.forEach(async(itemArticle) => {
-    await sayMessage(chatIdGoogle, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
+    await sayMessage(chatIdGoogle, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.nameResourse}\n${itemArticle.linkArticle}`);
   });
 }
 
@@ -100,3 +93,9 @@ async function sayPhoto(chatIdSay, urlPhoto) {
 async function sayMessage(chatIdSay, messageSay) {
   botTelegram.sendMessage(chatIdSay, messageSay);
 }
+
+
+botTelegram.on('message', (msg) => {
+  const chatId = msg.chat.id;
+  console.log('100. msg >>> ', msg);
+});
