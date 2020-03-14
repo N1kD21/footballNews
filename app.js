@@ -37,10 +37,10 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 //------Telegram
 const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
 const chatIdChanelNews  = '-1001382295148';
+let counter             = 0;
+let bufer               = [];
 
 const botTelegram = new TelegramBot(token, {polling: true});
-
-
 
 botTelegram.onText(/(.+)/, async (msg, match) => {
   const chatId          = msg.chat.id;
@@ -55,14 +55,42 @@ botTelegram.onText(/(.+)/, async (msg, match) => {
   otvetGoogleNewsAPI.forEach(async(itemArticle) => {
     await sayMessage(chatId, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
   });
+  bufer = otvetGoogleNewsAPI;
 });
 
 setInterval(async () => {
   let otvetGoogleNewsApiInteval = await zaprosFootballNews();
-  otvetGoogleNewsApiInteval.forEach(async(itemArticle) => {
-    await sayMessage(chatIdChanelNews, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
+  if (counter == 0) {
+    otvetGoogleNewsApiInteval.forEach(async(itemArticle) => {
+      await sayMessage(chatIdChanelNews, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
+    });
+    bufer = otvetGoogleNewsApiInteval;
+    counter++;
+  } else {
+    let otvetGoogleNewsApiIntevalFilter = await searchInArray(otvetGoogleNewsApiInteval, bufer);
+    if (otvetGoogleNewsApiIntevalFilter.length != 0) {
+      otvetGoogleNewsApiIntevalFilter.forEach(async(itemArticle) => {
+        await sayMessage(chatIdChanelNews, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.author}\n${itemArticle.nameResourse}\n${itemArticle.dataPublished}`);
+      });
+    }
+    bufer = otvetGoogleNewsApiIntevalFilter;
+  }
+}, 6000);
+
+
+async function searchInArray(arrayStaroe, arrayNovoe) {
+  let otvet1;
+  let otvet = [];
+  arrayNovoe.forEach((itemNovoeArray) => {
+    let otvet1 = arrayStaroe.find((itemStaroeArray) => {
+      return itemNovoeArray.zagolovok == itemStaroeArray.zagolovok;
+    })
+    if (otvet1 == undefined) {
+      otvet.push(itemNovoeArray);
+    }
   });
-}, 14800000);
+  return otvet;
+}
 
 async function sayPhoto(chatIdSay, urlPhoto) {
   botTelegram.sendPhoto(chatIdSay, urlPhoto);
