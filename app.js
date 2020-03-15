@@ -36,14 +36,8 @@ let counter             = 0;
 let bufer               = [];
 
 const botTelegram = new TelegramBot(token, {polling: true});
-botTelegram.onText(/(.+)/, async (msg, match) => {
+botTelegram.onText(/(.+)/, async (msg) => {
   const chatId          = msg.chat.id;
-  const resp            = match[1]; // the captured "whatever"
-  let otvetAllSportsAPI = await zaprosFootball();
-  otvetAllSportsAPI.forEach(async(itemLeague) => {
-    await sayMessage(chatId, `${itemLeague.name} is ${itemLeague.plan} Tournament`);
-  });
-
   //google news api
   let otvetGoogleNewsAPI = await zaprosFootballNews();
   vivodGoogleNews(otvetGoogleNewsAPI, chatId);
@@ -67,14 +61,17 @@ setInterval(async () => {
 
 
 async function vivodGoogleNews(array, chatIdGoogle) {
+  let image         = '';
+  let zagolovok     = '';
+  let nameResourse  = '';
+  let linkArticle   = '';
   for (var i = 0; i < array.length; i++) {
+    if (array[i].image !== null || array[i].image !== undefined)                image = array[i].image;
+    if (array[i].zagolovok !== null || array[i].zagolovok !== undefined)        zagolovok = array[i].zagolovok;
+    if (array[i].nameResourse !== null || array[i].nameResourse !== undefined)  nameResourse = array[i].nameResourse;
+    if (array[i].linkArticle !== null || array[i].linkArticle !== undefined)    linkArticle = array[i].linkArticle;
     await sayMessage(chatIdGoogle, `${array[i].immageUrl}\n${array[i].zagolovok}\n${array[i].nameResourse}\n${array[i].linkArticle}`);
   }
-/*
-  array.forEach(async(itemArticle) => {
-    await sayMessage(chatIdGoogle, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.nameResourse}\n${itemArticle.linkArticle}`);
-  });
-*/
 }
 
 async function searchInArray(arrayStaroe, arrayNovoe) {

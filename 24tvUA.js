@@ -3,8 +3,7 @@
 const fetch    = require('node-fetch');
 const cheerio  = require('cheerio');
 
-
-async function fetchFootball24UA(urlFetch) {
+async function fetch24tvUA(urlFetch) {
   return new Promise(function(resolve, reject) {
     fetch(urlFetch)
       .then(res => res.text())
@@ -12,32 +11,34 @@ async function fetchFootball24UA(urlFetch) {
   });
 }
 
+async function zapitDo24tvUA(element) {
+  console.log('17 24tvUA');
+  let html24tvUA        = await fetch24tvUA(element.url);
+  const $               = cheerio.load(html24tvUA, {decodeEntities: false});
 
-async function zapitDoFootball24UA(element) {
-  console.log('17 football24UA');
-  let htmlFootball24UA  = await fetchFootball24UA(element.url);
-  const $               = cheerio.load(htmlFootball24UA, {decodeEntities: false})
-  let vivodMassiv       = $('p')
+  let vivodMassiv       = $('p');
   let massivTag         = [];
   let massivTagText     = [];
-  let newArray          = [];
 
   vivodMassiv.each(function(indexElementaClassa) {
     let elementClassHtml              = $(this);
     massivTag[indexElementaClassa]    = $.html(elementClassHtml);
-    if (massivTag[indexElementaClassa].startsWith('<p>') || massivTag[indexElementaClassa].startsWith('<p class="lead">')) {
+    if (massivTag[indexElementaClassa].startsWith('<p id="newsAnnotation">')) {
       massivTagText.push($.text(elementClassHtml))
     }
   });
-  for (var i = 0; i < massivTagText.length - 4; i++) {
-    newArray.push(massivTagText[i])
-  }
+
   return new Promise(function(resolve, reject) {
-    let stringFootball24UA = newArray.join('\n');
+    let string24tvUA = element.title;
+    if (massivTagText.length != 0) {
+      let index = 0;
+      if (massivTagText[0].startsWith('Про це повідомляє видання')) index = 1;
+      string24tvUA = massivTagText[index];
+    }
     let result = {
       nameResourse  : element.source.name,
       author        : element.author,
-      zagolovok     : stringFootball24UA,
+      zagolovok     : string24tvUA,
       linkArticle   : element.url,
       immageUrl     : element.urlToImage,
       dataPublished : element.publishedAt
@@ -46,4 +47,4 @@ async function zapitDoFootball24UA(element) {
   });
 }
 
-module.exports = zapitDoFootball24UA
+module.exports = zapitDo24tvUA

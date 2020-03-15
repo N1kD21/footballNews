@@ -2,6 +2,7 @@
 
 const fetch                 = require('node-fetch');
 const zapitDoFootball24UA   = require('./football24UA.js');
+const zapitDo24tvUA         = require('./24tvUA.js');
 
 
 async function fetchFootballNews(url) {
@@ -19,16 +20,24 @@ async function zaprosFootballNews(){
   let urlGoogleNews         = 'http://newsapi.org/v2/top-headlines?country=ua&category=sports&apiKey=' + API_KEY_GOOGLE;
   let dani_na_povernennia   = [];
   return new Promise(async function (resolve, reject) {
-    let otvetGoogleNewsAPI  = await fetchFootballNews(urlGoogleNews);
+    let otvetGoogleNewsAPI      = await fetchFootballNews(urlGoogleNews);
     let allArticlesFootball24UA = [];
-    let allAnotherArticles = [];
-
+    let allArticles24TVUA       = [];
+    let allAnotherArticles      = [];
     for (var i = 0; i < otvetGoogleNewsAPI.articles.length; i++) {
       let elementMassivu    = otvetGoogleNewsAPI.articles[i];
       let nameResourse      = elementMassivu.source.name;
-      if (nameResourse == 'Football24.ua' || nameResourse == 'football24.ua') {
+      switch (nameResourse) {
+        case '24tv.ua':
+        allArticles24TVUA.push(elementMassivu);
+          break;
+        case 'football24.ua':
         allArticlesFootball24UA.push(elementMassivu);
-      } else {
+          break;
+        case 'Football24.ua':
+        allArticlesFootball24UA.push(elementMassivu);
+          break;
+        default:
         allAnotherArticles.push({
           nameResourse  : nameResourse,
           author        : elementMassivu.author,
@@ -38,12 +47,13 @@ async function zaprosFootballNews(){
           dataPublished : elementMassivu.publishedAt
         })
       }
+
     }
+    let results24tvUA       = await Promise.all(allArticles24TVUA.map(zapitDo24tvUA));
     let resultsFootball24UA = await Promise.all(allArticlesFootball24UA.map(zapitDoFootball24UA));
-    let dani_na_povernennia = allAnotherArticles.concat(resultsFootball24UA);
+    let dani_na_povernennia = allAnotherArticles.concat(resultsFootball24UA, results24tvUA);
     resolve(dani_na_povernennia);
   });
 }
-
-//zaprosFootballNews()
+//zaprosFootballNews();
 module.exports = zaprosFootballNews;
