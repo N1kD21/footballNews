@@ -57,11 +57,11 @@ setInterval(async () => {
     bufer = otvetGoogleNewsApiInteval;
     counter++;
   } else {
-    let otvetGoogleNewsApiIntevalFilter = await searchInArray(otvetGoogleNewsApiInteval, bufer);
+    let otvetGoogleNewsApiIntevalFilter = await searchInArray(bufer, otvetGoogleNewsApiInteval);
     if (otvetGoogleNewsApiIntevalFilter.length != 0) {
       vivodGoogleNews(otvetGoogleNewsApiIntevalFilter, chatIdChanelNews);
+      bufer = otvetGoogleNewsApiIntevalFilter;
     }
-    bufer = otvetGoogleNewsApiIntevalFilter;
   }
 }, 7200000);
 
@@ -93,7 +93,6 @@ async function sayPhoto(chatIdSay, urlPhoto) {
 async function sayMessage(chatIdSay, messageSay) {
   botTelegram.sendMessage(chatIdSay, messageSay);
 }
-
 
 botTelegram.on('message', (msg) => {
   const chatId = msg.chat.id;
