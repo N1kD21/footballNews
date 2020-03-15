@@ -13,9 +13,8 @@ async function fetchFootball24UA(urlFetch) {
 }
 
 
-async function zapitDoFootball24UA(url) {
-  console.log('17');
-  let htmlFootball24UA  = await fetchFootball24UA(url);
+async function zapitDoFootball24UA(element) {
+  let htmlFootball24UA  = await fetchFootball24UA(element.url);
   const $               = cheerio.load(htmlFootball24UA, {decodeEntities: false})
   let vivodMassiv       = $('p')
   let massivTag         = [];
@@ -34,7 +33,15 @@ async function zapitDoFootball24UA(url) {
   }
   return new Promise(function(resolve, reject) {
     let stringFootball24UA = newArray.join('\n');
-    resolve(stringFootball24UA);
+    let result = {
+      nameResourse  : element.source.name,
+      author        : element.author,
+      zagolovok     : stringFootball24UA,
+      linkArticle   : element.url,
+      immageUrl     : element.urlToImage,
+      dataPublished : element.publishedAt
+    };
+    resolve(result);
   });
 }
 

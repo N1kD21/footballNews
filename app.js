@@ -30,8 +30,8 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
-const chatIdChanelNews  = '-1001382295148';
+const token             = '';
+const chatIdChanelNews  = '-';
 let counter             = 0;
 let bufer               = [];
 
@@ -67,9 +67,14 @@ setInterval(async () => {
 
 
 async function vivodGoogleNews(array, chatIdGoogle) {
+  for (var i = 0; i < array.length; i++) {
+    await sayMessage(chatIdGoogle, `${array[i].immageUrl}\n${array[i].zagolovok}\n${array[i].nameResourse}\n${array[i].linkArticle}`);
+  }
+/*
   array.forEach(async(itemArticle) => {
     await sayMessage(chatIdGoogle, `${itemArticle.immageUrl}\n${itemArticle.zagolovok}\n${itemArticle.nameResourse}\n${itemArticle.linkArticle}`);
   });
+*/
 }
 
 async function searchInArray(arrayStaroe, arrayNovoe) {
