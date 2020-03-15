@@ -15,7 +15,6 @@ const port            = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.urlencoded());
 app.get('/api', function(req, res) {
-//    res.sendFile(path.join(__dirname + '/index.html'));
     res.send('Ответ от API на Хероку  ->  путь к запросу ' + req.route.path);
 });
 app.post('/url', function(req, res) {
@@ -30,8 +29,8 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-const token             = '';
-const chatIdChanelNews  = '-';
+const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
+const chatIdChanelNews  = '-1001382295148';
 let counter             = 0;
 let bufer               = [];
 
@@ -65,12 +64,29 @@ async function vivodGoogleNews(array, chatIdGoogle) {
   let zagolovok     = '';
   let nameResourse  = '';
   let linkArticle   = '';
+  console.log('67. array >>> ', array);
   for (var i = 0; i < array.length; i++) {
-    if (array[i].image !== null || array[i].image !== undefined)                image = array[i].image;
+    if (array[i].immageUrl !== null || array[i].immageUrl !== undefined)        immage = array[i].immageUrl;
     if (array[i].zagolovok !== null || array[i].zagolovok !== undefined)        zagolovok = array[i].zagolovok;
     if (array[i].nameResourse !== null || array[i].nameResourse !== undefined)  nameResourse = array[i].nameResourse;
     if (array[i].linkArticle !== null || array[i].linkArticle !== undefined)    linkArticle = array[i].linkArticle;
-    await sayMessage(chatIdGoogle, `${array[i].immageUrl}\n${array[i].zagolovok}\n${array[i].nameResourse}\n${array[i].linkArticle}`);
+    await sayPhoto(chatIdGoogle, immage);
+
+    try {
+      await sayMessage(chatIdGoogle, `${zagolovok}\n${nameResourse}\n${linkArticle}`, {disable_web_page_preview: true});
+    } catch (err) {
+      console.log('95. err.message ', err.message);
+      if (err.message == 'ETELEGRAM: 400 Bad Request: message is too long') {
+        let zagolovokMassiv = zagolovok.split('\n\n');
+        for (var iOtvetov = 0; iOtvetov < zagolovokMassiv.length; iOtvetov++) {
+          if (iOtvetov != zagolovokMassiv.length - 1) {
+            await sayMessage(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}`)
+          } else {
+            await sayMessage(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}\n${nameResourse}\n${linkArticle}`, {disable_web_page_preview: true})
+          }
+        }
+      }
+    }
   }
 }
 
@@ -89,14 +105,22 @@ async function searchInArray(arrayStaroe, arrayNovoe) {
 }
 
 async function sayPhoto(chatIdSay, urlPhoto) {
-  botTelegram.sendPhoto(chatIdSay, urlPhoto);
+  await botTelegram.sendPhoto(chatIdSay, urlPhoto);
 }
 
-async function sayMessage(chatIdSay, messageSay) {
-  botTelegram.sendMessage(chatIdSay, messageSay);
+async function sayMessage(chatIdSay, messageSay, options) {
+  if (options == undefined) options = {};
+  await botTelegram.sendMessage(chatIdSay, messageSay, options);
 }
 
-botTelegram.on('message', (msg) => {
+botTelegram.on('message', async (msg) => {
   const chatId = msg.chat.id;
   console.log('100. msg >>> ', msg);
+/*
+  let zagolovok     = 'Наставник Байєра Петер Бос змирився з майбутньою втратою свого основного таланта Кая Хаверца.\n"Каю 20 років, але це вже його четвертий сезон в Бундеслізі. Це говорить багато про що. Всі в Німеччині вважають його вундеркіндом. З ним приємно працювати, він розумний. Він також грає на піаніно.\nМи продали його приятеля Юліана Брандта дортмундській Борусії минулого літа. Хаверц раптово став ще більш привабливим для інших клубів.\nМи не зможемо зберегти його до наступного літа. Це буде трансфер на 100 млн євро", – цитує Боса Algemeen Dagblad.\nПретендентами на німецького таланта ЗМІ називають Ліверпуль та Баварію. У нинішньому сезоні Бундесліги Хаверц провів 22 матчі, у яких відзначився 6-ма голами та 5-ма асистами.';
+  let nameResourse  = 'Football24.ua';
+  let linkArticle   = 'https://football24.ua/haverts_pokine_bayyer_vlitku_tse_bude_transfer_na_100_mln_yevro__nastavnik_farmatsevtiv_bos_n591391/';
+  await sayPhoto(chatId, 'https://football24.ua/resources/photos/news/600x315_DIR/202003/591391.jpg');
+  await sayMessage(chatId, `${zagolovok}\n${nameResourse}\n${linkArticle}`, {disable_web_page_preview: true})
+*/
 });
