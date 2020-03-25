@@ -44,6 +44,7 @@ async function zapitDo24tvUA(element) {
       dataPublished : element.publishedAt
     };
     resolve(result);
+    reject('Ошибка, контент не найден')
   });
 }
 

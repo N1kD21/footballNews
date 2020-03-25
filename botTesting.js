@@ -8,30 +8,8 @@ const TelegramBot     = require('node-telegram-bot-api');
 const zaprosFootball      = require('./requestAllFootball.js');
 const zaprosFootballNews  = require('./googleNewsAPI.js');
 
-
-
-// ------ API
-const port            = process.env.PORT || 3000;
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.urlencoded());
-app.get('/api', function(req, res) {
-    res.send('Ответ от API на Хероку  ->  путь к запросу ' + req.route.path);
-});
-app.post('/url', function(req, res) {
-    const url = req.body.url;
-
-    urlShortener.short(url, function(err, shortUrl){
-        res.send(shortUrl);
-    });
-});
-app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
-//-------API
-
-
-//------Telegram
 const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
 const chatIdChanelNews  = '-1001382295148';
-const chatIdChanelModer = '594504840';
 let counter             = 0;
 let bufer               = [];
 
@@ -44,27 +22,7 @@ botTelegram.onText(/(.+)/, async (msg) => {
   bufer.push(otvetGoogleNewsAPI);
 });
 
-setInterval(otvetInChannel, 7200000);
-setInterval(() => {
-  bufer = [];
-}, 86400000);
 
-otvetInChannel()
-
-async function otvetInChannel() {
-  let otvetGoogleNewsApiInteval = await zaprosFootballNews();
-  if (counter == 0) {
-    vivodGoogleNews(otvetGoogleNewsApiInteval, chatIdChanelModer);
-    bufer.push(otvetGoogleNewsApiInteval);
-    counter++;
-  } else {
-    let otvetGoogleNewsApiIntevalFilter = await searchInArray(bufer, otvetGoogleNewsApiInteval);
-    if (otvetGoogleNewsApiIntevalFilter.length != 0) {
-      vivodGoogleNews(otvetGoogleNewsApiIntevalFilter, chatIdChanelModer);
-      bufer.push(otvetGoogleNewsApiIntevalFilter);
-    }
-  }
-}
 
 async function vivodGoogleNews(array, chatIdGoogle) {
   let image         = '';
@@ -77,6 +35,7 @@ async function vivodGoogleNews(array, chatIdGoogle) {
     if (array[i].nameResourse !== null || array[i].nameResourse !== undefined)  nameResourse = array[i].nameResourse;
     if (array[i].linkArticle !== null || array[i].linkArticle !== undefined)    linkArticle = array[i].linkArticle;
     await sayPhoto(chatIdGoogle, immage);
+
     try {
       await sayMessageKeyboard(chatIdGoogle, `${zagolovok}\n${nameResourse}\n${linkArticle}`);
     } catch (err) {
@@ -85,14 +44,14 @@ async function vivodGoogleNews(array, chatIdGoogle) {
         let zagolovokMassiv = zagolovok.split('\n\n');
         for (var iOtvetov = 0; iOtvetov < zagolovokMassiv.length; iOtvetov++) {
           if (iOtvetov != zagolovokMassiv.length - 1) {
-            await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}`);
+            await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}`)
           } else {
-            await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}\n${nameResourse}\n${linkArticle}`);
+            await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}\n${nameResourse}\n${linkArticle}`)
           }
         }
       }
     }
-  } // конец for 68 строка
+  }
 }
 
 
@@ -137,8 +96,9 @@ async function sayMessageKeyboard(chatIdSay, messageSay) {
 
 
 botTelegram.on('callback_query', async function (msg) {
-  let textArticle   = msg.message.text;
-  let articlesParts = textArticle.split('\n')
-  await sayPhoto(chatIdChanelNews, articlesParts[articlesParts.length - 1]);
+  let textArticle = msg.message.text;
+//	console.log('112. msg >>> ', msg.message.id);
+  let arrayDel = textArticle.split('\n')
+  await sayPhoto(chatIdChanelNews, arrayDel[arrayDel.length - 1]);
   await sayMessageDefault(chatIdChanelNews, textArticle);
 });
