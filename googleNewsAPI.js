@@ -16,43 +16,52 @@ async function fetchFootballNews(url) {
 async function zaprosFootballNews(){
   const start = new Date().getTime();
   console.log('18', start);
-  const API_KEY_GOOGLE      = '';
+  const API_KEY_GOOGLE      = '6f06874cc0a64418a5f03728e3c6744f';
   let urlGoogleNews         = 'http://newsapi.org/v2/top-headlines?country=ua&category=sports&apiKey=' + API_KEY_GOOGLE;
   let dani_na_povernennia   = [];
   return new Promise(async function (resolve, reject) {
     let otvetGoogleNewsAPI      = await fetchFootballNews(urlGoogleNews);
-    let allArticlesFootball24UA = [];
-    let allArticles24TVUA       = [];
-    let allAnotherArticles      = [];
-    for (var i = 0; i < otvetGoogleNewsAPI.articles.length; i++) {
-      let elementMassivu    = otvetGoogleNewsAPI.articles[i];
-      let nameResourse      = elementMassivu.source.name;
-      switch (nameResourse) {
-        case '24tv.ua':
-        allArticles24TVUA.push(elementMassivu);
-          break;
-        case 'football24.ua':
-        allArticlesFootball24UA.push(elementMassivu);
-          break;
-        case 'Football24.ua':
-        allArticlesFootball24UA.push(elementMassivu);
-          break;
-        default:
-        allAnotherArticles.push({
-          nameResourse  : nameResourse,
-          author        : elementMassivu.author,
-          zagolovok     : elementMassivu.title,
-          linkArticle   : elementMassivu.url,
-          immageUrl     : elementMassivu.urlToImage,
-          dataPublished : elementMassivu.publishedAt
-        })
-      }
+    console.log('24. otvetGoogleNewsAPI >>> ', otvetGoogleNewsAPI.status == 'ok');
+    if (otvetGoogleNewsAPI.status == 'ok') {
+      console.log('26');
+      let allArticlesFootball24UA = [];
+      let allArticles24TVUA       = [];
+      let allAnotherArticles      = [];
+      for (var i = 0; i < otvetGoogleNewsAPI.articles.length; i++) {
+        let elementMassivu    = otvetGoogleNewsAPI.articles[i];
+        let nameResourse      = elementMassivu.source.name;
+        switch (nameResourse) {
+          case '24tv.ua':
+          allArticles24TVUA.push(elementMassivu);
+            break;
+          case 'football24.ua':
+          allArticlesFootball24UA.push(elementMassivu);
+            break;
+          case 'Football24.ua':
+          allArticlesFootball24UA.push(elementMassivu);
+            break;
+          default:
+          allAnotherArticles.push({
+            nameResourse  : nameResourse,
+            author        : elementMassivu.author,
+            zagolovok     : elementMassivu.title,
+            linkArticle   : elementMassivu.url,
+            immageUrl     : elementMassivu.urlToImage,
+            dataPublished : elementMassivu.publishedAt
+          })
+        }
 
+      }
+      let results24tvUA       = await Promise.all(allArticles24TVUA.map(zapitDo24tvUA));
+      let resultsFootball24UA = await Promise.all(allArticlesFootball24UA.map(zapitDoFootball24UA));
+      let dani_na_povernennia = allAnotherArticles.concat(resultsFootball24UA, results24tvUA);
+      resolve(dani_na_povernennia);
+    } else {
+      let dani_na_povernennia = [{
+        error: true,
+      }];
+      resolve(dani_na_povernennia);
     }
-    let results24tvUA       = await Promise.all(allArticles24TVUA.map(zapitDo24tvUA));
-    let resultsFootball24UA = await Promise.all(allArticlesFootball24UA.map(zapitDoFootball24UA));
-    let dani_na_povernennia = allAnotherArticles.concat(resultsFootball24UA, results24tvUA);
-    resolve(dani_na_povernennia);
   });
 }
 //zaprosFootballNews();

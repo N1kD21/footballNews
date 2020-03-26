@@ -29,9 +29,9 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-const token             = '';
-const chatIdChanelNews  = '-';
-const chatIdChanelModer = '';
+const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
+const chatIdChanelNews  = '-1001382295148';
+const chatIdChanelModer = '594504840';
 let counter             = 0;
 let bufer               = [];
 
@@ -40,7 +40,11 @@ botTelegram.onText(/(.+)/, async (msg) => {
   const chatId          = msg.chat.id;
   //google news api
   let otvetGoogleNewsAPI = await zaprosFootballNews();
-  vivodGoogleNews(otvetGoogleNewsAPI, chatId);
+  if (chatId != chatIdChanelModer) {
+    vivodGoogleNews(otvetGoogleNewsAPI, chatId)
+  } else {
+    vivodGoogleNewsM(otvetGoogleNewsAPI, chatIdChanelModer);
+  }
   bufer.push(otvetGoogleNewsAPI);
 });
 
@@ -54,16 +58,64 @@ otvetInChannel()
 async function otvetInChannel() {
   let otvetGoogleNewsApiInteval = await zaprosFootballNews();
   if (counter == 0) {
-    vivodGoogleNews(otvetGoogleNewsApiInteval, chatIdChanelModer);
+    vivodGoogleNewsM(otvetGoogleNewsApiInteval, chatIdChanelModer);
     bufer.push(otvetGoogleNewsApiInteval);
     counter++;
   } else {
     let otvetGoogleNewsApiIntevalFilter = await searchInArray(bufer, otvetGoogleNewsApiInteval);
     if (otvetGoogleNewsApiIntevalFilter.length != 0) {
-      vivodGoogleNews(otvetGoogleNewsApiIntevalFilter, chatIdChanelModer);
+      console.log('67. bufer >>> ', bufer);
+      vivodGoogleNewsM(otvetGoogleNewsApiIntevalFilter, chatIdChanelModer);
       bufer.push(otvetGoogleNewsApiIntevalFilter);
+      console.log('70. bufer >>> ', bufer);
     }
   }
+}
+
+async function vivodGoogleNewsM(array, chatIdGoogle) {
+  let image         = '';
+  let zagolovok     = '';
+  let nameResourse  = '';
+  let linkArticle   = '';
+  for (var i = 0; i < array.length; i++) {
+    if (array[i].error == undefined) {
+      if (array[i].immageUrl !== null || array[i].immageUrl !== undefined)        immage = array[i].immageUrl;
+      if (array[i].zagolovok !== null || array[i].zagolovok !== undefined)        zagolovok = array[i].zagolovok;
+      if (array[i].nameResourse !== null || array[i].nameResourse !== undefined)  nameResourse = array[i].nameResourse;
+      if (array[i].linkArticle !== null || array[i].linkArticle !== undefined)    linkArticle = array[i].linkArticle;
+      if (`${zagolovok}\n${nameResourse}\n${linkArticle}`.length < 1025) {
+        await sayPhotoKeyboard(chatIdGoogle, immage, {caption: `${zagolovok}\n${nameResourse}\n${linkArticle}`});
+      } else {
+        let zagolovokMassiv = zagolovok.split('\n\n');
+        if (zagolovokMassiv.length == 1) {
+          await sayPhotoDefault(chatIdGoogle, immage);
+          await sayMessageKeyboard(chatIdGoogle, `${zagolovok}\n${nameResourse}\n${linkArticle}`);
+        } else {
+          for (var iOtvetov = 0; iOtvetov < zagolovokMassiv.length; iOtvetov++) {
+            switch (iOtvetov) {
+              case 0:
+              try {
+                await sayPhotoKeyboard(chatIdGoogle, immage, {caption: `${zagolovokMassiv[iOtvetov]}`});
+              } catch (error)  {
+                if (error.message == 'ETELEGRAM: 400 Bad Request: MEDIA_CAPTION_TOO_LONG') {
+                  await sayPhotoDefault(chatIdGoogle, immage);
+                  await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}`);
+                }
+              }
+                break;
+              case zagolovokMassiv.length - 1:
+              await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}\n${nameResourse}\n${linkArticle}`);
+                break;
+              default:
+              await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}`);
+            }
+          }
+        }
+      }
+    } else {
+      await sayMessageDefault(chatIdGoogle, 'Запрос к Google News API небыл успешен. Мы решаем данную проблему.')
+    }
+  } // конец for 68 строка
 }
 
 async function vivodGoogleNews(array, chatIdGoogle) {
@@ -72,29 +124,45 @@ async function vivodGoogleNews(array, chatIdGoogle) {
   let nameResourse  = '';
   let linkArticle   = '';
   for (var i = 0; i < array.length; i++) {
-    if (array[i].immageUrl !== null || array[i].immageUrl !== undefined)        immage = array[i].immageUrl;
-    if (array[i].zagolovok !== null || array[i].zagolovok !== undefined)        zagolovok = array[i].zagolovok;
-    if (array[i].nameResourse !== null || array[i].nameResourse !== undefined)  nameResourse = array[i].nameResourse;
-    if (array[i].linkArticle !== null || array[i].linkArticle !== undefined)    linkArticle = array[i].linkArticle;
-    await sayPhoto(chatIdGoogle, immage);
-    try {
-      await sayMessageKeyboard(chatIdGoogle, `${zagolovok}\n${nameResourse}\n${linkArticle}`);
-    } catch (err) {
-      console.log('95. err.message ', err.message);
-      if (err.message == 'ETELEGRAM: 400 Bad Request: message is too long') {
+    if (array[i].error == undefined) {
+      if (array[i].immageUrl !== null || array[i].immageUrl !== undefined)        immage = array[i].immageUrl;
+      if (array[i].zagolovok !== null || array[i].zagolovok !== undefined)        zagolovok = array[i].zagolovok;
+      if (array[i].nameResourse !== null || array[i].nameResourse !== undefined)  nameResourse = array[i].nameResourse;
+      if (array[i].linkArticle !== null || array[i].linkArticle !== undefined)    linkArticle = array[i].linkArticle;
+      if (`${zagolovok}\n${nameResourse}\n${linkArticle}`.length < 1024) {
+        await sayPhotoDefault(chatIdGoogle, immage, {caption: `${zagolovok}\n${nameResourse}\n${linkArticle}`});
+      } else {
         let zagolovokMassiv = zagolovok.split('\n\n');
-        for (var iOtvetov = 0; iOtvetov < zagolovokMassiv.length; iOtvetov++) {
-          if (iOtvetov != zagolovokMassiv.length - 1) {
-            await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}`);
-          } else {
-            await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}\n${nameResourse}\n${linkArticle}`);
+        if (zagolovokMassiv.length == 1) {
+          await sayPhotoDefault(chatIdGoogle, immage);
+          await sayMessageDefault(chatIdGoogle, `${zagolovok}\n${nameResourse}\n${linkArticle}`);
+        } else {
+          for (var iOtvetov = 0; iOtvetov < zagolovokMassiv.length; iOtvetov++) {
+            switch (iOtvetov) {
+              case 0:
+              try {
+                await sayPhotoDefault(chatIdGoogle, immage, {caption: `${zagolovokMassiv[iOtvetov]}`});
+              } catch (error)  {
+                if (error.message == 'ETELEGRAM: 400 Bad Request: MEDIA_CAPTION_TOO_LONG') {
+                  await sayPhotoDefault(chatIdGoogle, immage);
+                  await sayMessageDefault(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}`);
+                }
+              }
+                break;
+              case zagolovokMassiv.length - 1:
+              await sayMessageDefault(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}\n${nameResourse}\n${linkArticle}`);
+                break;
+              default:
+              await sayMessageDefault(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}`);
+            }
           }
         }
       }
+    } else {
+      await sayMessageDefault(chatIdGoogle, 'Запрос к Google News API небыл успешен. Мы решаем данную проблему.')
     }
   } // конец for 68 строка
 }
-
 
 async function searchInArray(arrayStaroe, arrayNovoe) {
   let otvet1;
@@ -110,8 +178,37 @@ async function searchInArray(arrayStaroe, arrayNovoe) {
   return otvet;
 }
 
-async function sayPhoto(chatIdSay, urlPhoto) {
-  await botTelegram.sendPhoto(chatIdSay, urlPhoto);
+async function sayPhotoKeyboard(chatIdSay, urlPhoto, options) {
+  if (options == undefined) {
+    options = {};
+  } else {
+    options = {
+      caption: options.caption,
+      disable_web_page_preview: true,
+      reply_markup: {
+          inline_keyboard: [
+              [
+                {
+                      text          : 'Утвердить статью',
+                      callback_data : 'Утверждение статьи'
+                }
+              ]
+          ]
+      }
+    }
+  }
+  await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
+}
+
+async function sayPhotoDefault(chatIdSay, urlPhoto, options) {
+  if (options == undefined) {
+    options = {}
+  } else {
+    options = {
+      caption: options.caption
+    }
+  }
+  await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
 }
 
 async function sayMessageDefault(chatIdSay, messageSay) {
@@ -138,7 +235,18 @@ async function sayMessageKeyboard(chatIdSay, messageSay) {
 
 botTelegram.on('callback_query', async function (msg) {
   let textArticle   = msg.message.text;
-  let articlesParts = textArticle.split('\n')
-  await sayPhoto(chatIdChanelNews, articlesParts[articlesParts.length - 1]);
-  await sayMessageDefault(chatIdChanelNews, textArticle);
+  if (textArticle != undefined) {
+    let poiskHttp     = textArticle.search('http');
+    if (poiskHttp == -1) {
+      await sayMessageDefault(chatIdChanelNews, textArticle);
+    } else {
+      let articlesParts = textArticle.split('\n')
+      await sayPhotoDefault(chatIdChanelNews, articlesParts[articlesParts.length - 1]);
+      await sayMessageDefault(chatIdChanelNews, textArticle);
+    }
+  } else {
+    let captionArticle  = msg.message.caption;
+    let articlesParts   = captionArticle.split('\n')
+    await sayPhotoDefault(chatIdChanelNews, articlesParts[articlesParts.length - 1], {caption: captionArticle});
+  }
 });
