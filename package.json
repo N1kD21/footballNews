@@ -12,6 +12,8 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "express": "^4.17.1",
+    "google-auth-library": "^6.0.0",
+    "googleapis": "^48.0.0",
     "node-fetch": "^2.6.0",
     "node-telegram-bot-api": "^0.40.0",
     "node-url-shortener": "^1.0.1",

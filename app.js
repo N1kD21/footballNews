@@ -29,15 +29,16 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-const token             = '';
-const chatIdChanelNews  = '-';
-const chatIdChanelModer = '';
+const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
+const chatIdChanelNews  = '-1001382295148';
+const chatIdChanelModer = '725519934';
 let counter             = 0;
 let bufer               = [];
 
 const botTelegram = new TelegramBot(token, {polling: true});
 botTelegram.onText(/(.+)/, async (msg) => {
   const chatId          = msg.chat.id;
+  console.log('41. msg >>> ', msg);
   //google news api
   let otvetGoogleNewsAPI = await zaprosFootballNews();
   if (chatId != chatIdChanelModer) {
@@ -64,10 +65,8 @@ async function otvetInChannel() {
   } else {
     let otvetGoogleNewsApiIntevalFilter = await searchInArray(bufer, otvetGoogleNewsApiInteval);
     if (otvetGoogleNewsApiIntevalFilter.length != 0) {
-      console.log('67. bufer >>> ', bufer);
       vivodGoogleNewsM(otvetGoogleNewsApiIntevalFilter, chatIdChanelModer);
       bufer.push(otvetGoogleNewsApiIntevalFilter);
-      console.log('70. bufer >>> ', bufer);
     }
   }
 }
@@ -178,6 +177,17 @@ async function searchInArray(arrayStaroe, arrayNovoe) {
   return otvet;
 }
 
+async function sayPhotoDefault(chatIdSay, urlPhoto, options) {
+  if (options == undefined) {
+    options = {}
+  } else {
+    options = {
+      caption: options.caption
+    }
+  }
+  await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
+}
+
 async function sayPhotoKeyboard(chatIdSay, urlPhoto, options) {
   if (options == undefined) {
     options = {};
@@ -195,17 +205,6 @@ async function sayPhotoKeyboard(chatIdSay, urlPhoto, options) {
               ]
           ]
       }
-    }
-  }
-  await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
-}
-
-async function sayPhotoDefault(chatIdSay, urlPhoto, options) {
-  if (options == undefined) {
-    options = {}
-  } else {
-    options = {
-      caption: options.caption
     }
   }
   await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
