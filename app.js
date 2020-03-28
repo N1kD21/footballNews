@@ -29,11 +29,12 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
-const chatIdChanelNews  = '-1001382295148';
-const chatIdChanelModer = '725519934';
-let counter             = 0;
-let bufer               = [];
+const token               = '';
+const chatIdChanelNews    = '-';
+const chatIdChanelModer   = '';
+const chatIdChanelModer2  = '';
+let counter               = 0;
+let bufer                 = [];
 
 const botTelegram = new TelegramBot(token, {polling: true});
 botTelegram.onText(/(.+)/, async (msg) => {
@@ -57,21 +58,31 @@ setInterval(() => {
 otvetInChannel()
 
 async function otvetInChannel() {
-  let otvetGoogleNewsApiInteval = await zaprosFootballNews();
+  let massivCountry           = ['ua', 'ru'];
+  let upravlenieMassiv        = [];
+  let upravlenieMassivFilter  = [];
+//  let otvetGoogleNewsApiInteval = await zaprosFootballNews();
+  let otvetGoogleNewsApi  = await Promise.all(massivCountry.map(zaprosFootballNews));
+  console.log('66. otvetGoogleNewsApi >>> ', otvetGoogleNewsApi);
+  let otvetGoogleNewsApiInteval = otvetGoogleNewsApi[0].concat(otvetGoogleNewsApi[1]);
   if (counter == 0) {
-    vivodGoogleNewsM(otvetGoogleNewsApiInteval, chatIdChanelModer);
+    upravlenieMassiv = [{otvet: otvetGoogleNewsApiInteval, chatId: chatIdChanelModer}, {otvet: otvetGoogleNewsApiInteval, chatId: chatIdChanelModer2}]
+    Promise.all(upravlenieMassiv.map(vivodGoogleNewsM))
     bufer.push(otvetGoogleNewsApiInteval);
     counter++;
   } else {
     let otvetGoogleNewsApiIntevalFilter = await searchInArray(bufer, otvetGoogleNewsApiInteval);
     if (otvetGoogleNewsApiIntevalFilter.length != 0) {
-      vivodGoogleNewsM(otvetGoogleNewsApiIntevalFilter, chatIdChanelModer);
+      upravlenieMassivFilter = [{otvet: otvetGoogleNewsApiIntevalFilter, chatId: chatIdChanelModer}, {otvet: otvetGoogleNewsApiIntevalFilter, chatId: chatIdChanelModer2}]
+      Promise.all(upravlenieMassivFilter.map(vivodGoogleNewsM))
       bufer.push(otvetGoogleNewsApiIntevalFilter);
     }
   }
 }
 
-async function vivodGoogleNewsM(array, chatIdGoogle) {
+async function vivodGoogleNewsM(object) {
+  let array         = object.otvet;
+  let chatIdGoogle  = object.chatId;
   let image         = '';
   let zagolovok     = '';
   let nameResourse  = '';

@@ -8,8 +8,8 @@ const TelegramBot     = require('node-telegram-bot-api');
 const zaprosFootball      = require('./requestAllFootball.js');
 const zaprosFootballNews  = require('./googleNewsAPI.js');
 
-const token             = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
-const chatIdChanelNews  = '-1001382295148';
+const token             = '';
+const chatIdChanelNews  = '-';
 let counter             = 0;
 let bufer               = [];
 
