@@ -39,7 +39,6 @@ let bufer                 = [];
 const botTelegram = new TelegramBot(token, {polling: true});
 botTelegram.onText(/(.+)/, async (msg) => {
   const chatId          = msg.chat.id;
-  console.log('41. msg >>> ', msg);
   //google news api
   let otvetGoogleNewsAPI = await zaprosFootballNews();
   if (chatId != chatIdChanelModer) {
@@ -63,7 +62,6 @@ async function otvetInChannel() {
   let upravlenieMassivFilter  = [];
 //  let otvetGoogleNewsApiInteval = await zaprosFootballNews();
   let otvetGoogleNewsApi  = await Promise.all(massivCountry.map(zaprosFootballNews));
-  console.log('66. otvetGoogleNewsApi >>> ', otvetGoogleNewsApi);
   let otvetGoogleNewsApiInteval = otvetGoogleNewsApi[0].concat(otvetGoogleNewsApi[1]);
   if (counter == 0) {
     upravlenieMassiv = [{otvet: otvetGoogleNewsApiInteval, chatId: chatIdChanelModer}, {otvet: otvetGoogleNewsApiInteval, chatId: chatIdChanelModer2}]
@@ -94,12 +92,12 @@ async function vivodGoogleNewsM(object) {
       if (array[i].nameResourse !== null || array[i].nameResourse !== undefined)  nameResourse = array[i].nameResourse;
       if (array[i].linkArticle !== null || array[i].linkArticle !== undefined)    linkArticle = array[i].linkArticle;
       if (`${zagolovok}\n${nameResourse}\n${linkArticle}`.length < 1025) {
-        await sayPhotoKeyboard(chatIdGoogle, immage, {caption: `${zagolovok}\n${nameResourse}\n${linkArticle}`});
+        await sayPhotoKeyboard(chatIdGoogle, immage, {caption: `${zagolovok}\n<a href="${linkArticle}">${nameResourse}</a>`});
       } else {
         let zagolovokMassiv = zagolovok.split('\n\n');
         if (zagolovokMassiv.length == 1) {
           await sayPhotoDefault(chatIdGoogle, immage);
-          await sayMessageKeyboard(chatIdGoogle, `${zagolovok}\n${nameResourse}\n${linkArticle}`);
+          await sayMessageKeyboard(chatIdGoogle, `${zagolovok}\n<a href="${linkArticle}">${nameResourse}</a>`);
         } else {
           for (var iOtvetov = 0; iOtvetov < zagolovokMassiv.length; iOtvetov++) {
             switch (iOtvetov) {
@@ -114,7 +112,7 @@ async function vivodGoogleNewsM(object) {
               }
                 break;
               case zagolovokMassiv.length - 1:
-              await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}\n${nameResourse}\n${linkArticle}`);
+              await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}\n<a href="${linkArticle}">${nameResourse}</a>`);
                 break;
               default:
               await sayMessageKeyboard(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}`);
@@ -140,12 +138,12 @@ async function vivodGoogleNews(array, chatIdGoogle) {
       if (array[i].nameResourse !== null || array[i].nameResourse !== undefined)  nameResourse = array[i].nameResourse;
       if (array[i].linkArticle !== null || array[i].linkArticle !== undefined)    linkArticle = array[i].linkArticle;
       if (`${zagolovok}\n${nameResourse}\n${linkArticle}`.length < 1024) {
-        await sayPhotoDefault(chatIdGoogle, immage, {caption: `${zagolovok}\n${nameResourse}\n${linkArticle}`});
+        await sayPhotoDefault(chatIdGoogle, immage, {caption: `${zagolovok}\n[${nameResourse}](${linkArticle})`});
       } else {
         let zagolovokMassiv = zagolovok.split('\n\n');
         if (zagolovokMassiv.length == 1) {
           await sayPhotoDefault(chatIdGoogle, immage);
-          await sayMessageDefault(chatIdGoogle, `${zagolovok}\n${nameResourse}\n${linkArticle}`);
+          await sayMessageDefault(chatIdGoogle, `${zagolovok}\n<a href="${linkArticle}">${nameResourse}</a>`);
         } else {
           for (var iOtvetov = 0; iOtvetov < zagolovokMassiv.length; iOtvetov++) {
             switch (iOtvetov) {
@@ -160,7 +158,7 @@ async function vivodGoogleNews(array, chatIdGoogle) {
               }
                 break;
               case zagolovokMassiv.length - 1:
-              await sayMessageDefault(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}\n${nameResourse}\n${linkArticle}`);
+              await sayMessageDefault(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}\n<a href="${linkArticle}">${nameResourse}</a>`);
                 break;
               default:
               await sayMessageDefault(chatIdGoogle, `${zagolovokMassiv[iOtvetov]}`);
@@ -193,70 +191,82 @@ async function sayPhotoDefault(chatIdSay, urlPhoto, options) {
     options = {}
   } else {
     options = {
-      caption: options.caption
+      caption: options.caption,
+      parse_mode: 'HTML'
     }
   }
   await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
 }
 
 async function sayPhotoKeyboard(chatIdSay, urlPhoto, options) {
-  if (options == undefined) {
-    options = {};
-  } else {
-    options = {
-      caption: options.caption,
-      disable_web_page_preview: true,
-      reply_markup: {
-          inline_keyboard: [
-              [
-                {
-                      text          : 'Утвердить статью',
-                      callback_data : 'Утверждение статьи'
-                }
-              ]
-          ]
-      }
+  options = {
+    caption: options.caption,
+    parse_mode: 'HTML',
+    disable_web_page_preview: true,
+    reply_markup: {
+        inline_keyboard: [
+            [
+              {
+                    text          : 'Утвердить статью',
+                    callback_data : 'Утверждение статьи'
+              }
+            ]
+        ]
     }
   }
   await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
 }
 
 async function sayMessageDefault(chatIdSay, messageSay) {
-  await botTelegram.sendMessage(chatIdSay, messageSay, {disable_web_page_preview: true});
+  let options = {
+    disable_web_page_preview: true,
+    parse_mode: 'HTML'
+  }
+  await botTelegram.sendMessage(chatIdSay, messageSay, options);
 }
 
-async function sayMessageKeyboard(chatIdSay, messageSay) {
-  let options = { // кнопка под сообщением
-      disable_web_page_preview: true,
-      reply_markup: {
-          inline_keyboard: [
-              [
-                {
-                      text          : 'Утвердить статью',
-                      callback_data : 'Утверждение статьи'
-                }
-              ]
-          ]
-      }
-  };
-  await botTelegram.sendMessage(chatIdSay, messageSay, options);
+async function sayMessageKeyboard(chatIdSay, messageSay, options) {
+  let optionsNew = {
+    disable_web_page_preview: true,
+    parse_mode: 'HTML',
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text          : 'Утвердить статью',
+            callback_data : 'Утверждение статьи'
+          }
+        ]
+      ]
+    }
+  }
+  await botTelegram.sendMessage(chatIdSay, messageSay, optionsNew);
 }
 
 
 botTelegram.on('callback_query', async function (msg) {
   let textArticle   = msg.message.text;
   if (textArticle != undefined) {
-    let poiskHttp     = textArticle.search('http');
-    if (poiskHttp == -1) {
-      await sayMessageDefault(chatIdChanelNews, textArticle);
+    if (msg.message.entities != undefined) {
+      let textArticle     = msg.message.text;
+      let articlesParts   = textArticle.split('\n');
+      let nameResourse    = articlesParts.pop(); //последний элемент массива
+      let zagolovok       = articlesParts.join('\n');
+      let linkArticle     = msg.message.entities[msg.message.entities.length - 1].url;
+      captionArticle      = zagolovok.concat(`\n<a href="${linkArticle}">${nameResourse}</a>`);
+      await sayPhotoDefault(chatIdChanelNews, linkArticle);
+      await sayMessageDefault(chatIdChanelNews, `${captionArticle}`);
     } else {
-      let articlesParts = textArticle.split('\n')
-      await sayPhotoDefault(chatIdChanelNews, articlesParts[articlesParts.length - 1]);
       await sayMessageDefault(chatIdChanelNews, textArticle);
     }
   } else {
     let captionArticle  = msg.message.caption;
-    let articlesParts   = captionArticle.split('\n')
-    await sayPhotoDefault(chatIdChanelNews, articlesParts[articlesParts.length - 1], {caption: captionArticle});
+    let articlesParts   = captionArticle.split('\n');
+    let nameResourse    = articlesParts.pop(); //последний элемент массива
+    let zagolovok       = articlesParts.join('\n');
+    let linkArticle     = msg.message.caption_entities[msg.message.caption_entities.length - 1].url;
+    captionArticle      = zagolovok.concat(`\n<a href="${linkArticle}">${nameResourse}</a>`)
+    let linkPhoto       = msg.message.photo[msg.message.photo.length - 1].file_id;
+    await sayPhotoDefault(chatIdChanelNews, linkPhoto, {caption: captionArticle});
   }
 });
