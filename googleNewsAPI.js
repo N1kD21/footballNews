@@ -16,7 +16,7 @@ async function fetchFootballNews(url) {
 async function zaprosFootballNews(country){
   const start = new Date().getTime();
   console.log('18', start);
-  const API_KEY_GOOGLE      = '6f06874cc0a64418a5f03728e3c6744f';
+  const API_KEY_GOOGLE      = '';
   let urlGoogleNews         = 'http://newsapi.org/v2/top-headlines?country=' + country + '&category=sports&apiKey=' + API_KEY_GOOGLE;
   let dani_na_povernennia   = [];
   return new Promise(async function (resolve, reject) {

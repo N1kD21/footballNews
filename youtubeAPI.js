@@ -1,7 +1,7 @@
 'use strict';
 
 const fetch           = require('node-fetch');
-const API_KEY_GOOGLE  = 'AIzaSyB7x7BQqS3xFQIEmfbhRpFbjJYPqepqIHA';
+const API_KEY_GOOGLE  = '';
 async function fetchYoutubeApi(url) {
   return new Promise(function(resolve, reject) {
     fetch(url)

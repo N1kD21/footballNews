@@ -29,10 +29,10 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-const token               = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
-const chatIdChanelNews    = '-1001382295148';
-const chatIdChanelModer   = '725519934';
-const chatIdChanelModer2  = '594504840';
+const token               = '';
+const chatIdChanelNews    = '-';
+const chatIdChanelModer   = '';
+const chatIdChanelModer2  = '';
 let counter               = 0;
 let bufer                 = [];
 
