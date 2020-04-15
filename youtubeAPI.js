@@ -1,7 +1,7 @@
 'use strict';
 
 const fetch           = require('node-fetch');
-const API_KEY_GOOGLE  = '';
+const API_KEY_GOOGLE  = 'AIzaSyB7x7BQqS3xFQIEmfbhRpFbjJYPqepqIHA';
 async function fetchYoutubeApi(url) {
   return new Promise(function(resolve, reject) {
     fetch(url)
@@ -11,13 +11,22 @@ async function fetchYoutubeApi(url) {
 }
 
 async function zaprosYoutubeApi(text4Poisk) {
-  let part              = 'snippet';
-  let maxResults        = '25';
-  let encodeText4Poisk  = encodeURIComponent(text4Poisk);
-  let urlYoutubeSearchList = `https://www.googleapis.com/youtube/v3/search?part=${part}&maxResults=${maxResults}&q=${encodeText4Poisk}&key=${API_KEY_GOOGLE}`;
-  console.log('17. urlYoutubeSearchList >>> ', urlYoutubeSearchList);
-  let otvetYoutube    = await fetchYoutubeApi(urlYoutubeSearchList);
-  console.log('19. otvetYoutube >>> ', otvetYoutube);
+  let resultVideoYoutube    = [];
+  let part                  = 'snippet';
+  let maxResults            = '25';
+  let type                  = 'video';
+  let encodeText4Poisk      = encodeURIComponent(text4Poisk);
+  let urlYoutubeSearchList  = `https://www.googleapis.com/youtube/v3/search?type${type}&part=${part}&maxResults=${maxResults}&q=${encodeText4Poisk}&key=${API_KEY_GOOGLE}`;
+  let resultYoutube         = await fetchYoutubeApi(urlYoutubeSearchList);
+  resultYoutube.items.forEach(async (item, i) => {
+    if (item.id.videoId != undefined) {
+      resultVideoYoutube.push({
+        urlVideo : 'https://youtu.be/' + item.id.videoId,
+        title    : item.snippet.title,
+        urlPhoto : item.snippet.thumbnails.default.url
+      })
+    }
+  });
+  return resultVideoYoutube;
 }
-
-zaprosYoutubeApi('футбол')
+module.exports = zaprosYoutubeApi;

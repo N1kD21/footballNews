@@ -29,10 +29,10 @@ app.listen(port, () => console.log(`url-shortener listening on port ${port}!`));
 
 
 //------Telegram
-const token               = '';
-const chatIdChanelNews    = '-';
-const chatIdChanelModer   = '';
-const chatIdChanelModer2  = '';
+const token               = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
+const chatIdChanelNews    = '-1001382295148';
+const chatIdChanelModer   = '725519934';
+const chatIdChanelModer2  = '594504840';
 let counter               = 0;
 let bufer                 = [];
 
@@ -46,13 +46,12 @@ botTelegram.onText(/(.+)/, async (msg) => {
   } else {
     vivodGoogleNewsM(otvetGoogleNewsAPI, chatIdChanelModer);
   }
-  bufer.push(otvetGoogleNewsAPI);
+//  bufer.push(otvetGoogleNewsAPI);
+  bufer = bufer.concat(otvetGoogleNewsAPI);
+
 });
 
 setInterval(otvetInChannel, 7200000);
-setInterval(() => {
-  bufer = [];
-}, 86400000);
 
 otvetInChannel()
 
@@ -60,20 +59,25 @@ async function otvetInChannel() {
   let massivCountry           = ['ua', 'ru'];
   let upravlenieMassiv        = [];
   let upravlenieMassivFilter  = [];
+  if (bufer.length > 100) {
+    bufer = [];
+  }
 //  let otvetGoogleNewsApiInteval = await zaprosFootballNews();
   let otvetGoogleNewsApi  = await Promise.all(massivCountry.map(zaprosFootballNews));
   let otvetGoogleNewsApiInteval = otvetGoogleNewsApi[0].concat(otvetGoogleNewsApi[1]);
   if (counter == 0) {
     upravlenieMassiv = [{otvet: otvetGoogleNewsApiInteval, chatId: chatIdChanelModer}, {otvet: otvetGoogleNewsApiInteval, chatId: chatIdChanelModer2}]
     Promise.all(upravlenieMassiv.map(vivodGoogleNewsM))
-    bufer.push(otvetGoogleNewsApiInteval);
+//    bufer.push(otvetGoogleNewsApiInteval);
+    bufer = bufer.concat(otvetGoogleNewsApiInteval);
     counter++;
   } else {
     let otvetGoogleNewsApiIntevalFilter = await searchInArray(bufer, otvetGoogleNewsApiInteval);
     if (otvetGoogleNewsApiIntevalFilter.length != 0) {
       upravlenieMassivFilter = [{otvet: otvetGoogleNewsApiIntevalFilter, chatId: chatIdChanelModer}, {otvet: otvetGoogleNewsApiIntevalFilter, chatId: chatIdChanelModer2}]
       Promise.all(upravlenieMassivFilter.map(vivodGoogleNewsM))
-      bufer.push(otvetGoogleNewsApiIntevalFilter);
+//      bufer.push(otvetGoogleNewsApiIntevalFilter);
+      bufer = bufer.concat(otvetGoogleNewsApiIntevalFilter);
     }
   }
 }
