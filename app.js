@@ -303,7 +303,7 @@ botTurniketTelegram.onText(/(.+)/, async (msg) => {
 Дата: ` + msg.date + `,
 Текст: ` + zaprosPhrase + ` }
 `)
-  let textNearLink  = 'Нажмите перейти в Канал';
+  let textNearLink  = 'Для регистрации в канал о футбольных новостях нажмите на кнопку';
   await sayTurniketMessageKeyboard(chatId, textNearLink)
 });
 
@@ -324,7 +324,7 @@ async function sayTurniketMessageKeyboard(chatIdSay, messageSay) {
       inline_keyboard: [
         [
           {
-            text    : 'Перейти в канал',
+            text    : 'Регистрация',
             url     : 'https://t.me/joinchat/AAAAAFJkJmzaTN_DyECyeA'
           }
         ]
