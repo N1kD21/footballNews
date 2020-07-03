@@ -277,12 +277,12 @@ botTelegram.on('callback_query', async function (msg) {
 
 
 // ---- Telegram Bot Turniket
-
+const TelegramBotTurniket = require('node-telegram-bot-api');
 const tokenTurniket       = '1271196207:AAEt2iluEDf2qW5bXU6cBSXliFsA1rV_8I4';
 const chatIdPrishelUshel  = '-1001170043710';
 
 
-const botTurniketTelegram = new TelegramBot(token, {polling: true});
+const botTurniketTelegram = new TelegramBotTurniket(tokenTurniket, {polling: true});
 
 botTurniketTelegram.onText(/(.+)/, async (msg) => {
   let zaprosPhrase      = msg.text
