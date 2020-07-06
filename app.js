@@ -325,7 +325,7 @@ async function sayTurniketMessageKeyboard(chatIdSay, messageSay) {
         [
           {
             text    : 'Регистрация',
-            url     : 'https://t.me/joinchat/AAAAAFJkJmzaTN_DyECyeA'
+            url     : 'https://t.me/f00tb4ll_hub'
           }
         ]
       ]
