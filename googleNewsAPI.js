@@ -4,6 +4,11 @@ const fetch                 = require('node-fetch');
 const zapitDoFootball24UA   = require('./football24UA.js');
 const zapitDo24tvUA         = require('./24tvUA.js');
 
+const TelegramBot         = require('node-telegram-bot-api');
+const token               = '1311938608:AAHqH-jmF44MqxCadJphcBfV2H6YBUbTuQA';
+const chatIdErrorsChannel = '-1001370249186';
+const botTelegram         = new TelegramBot(token, {polling: true});
+
 
 async function fetchFootballNews(url) {
   return new Promise(function(resolve, reject) {
@@ -39,14 +44,24 @@ async function zaprosFootballNews(country){
           allArticlesFootball24UA.push(elementMassivu);
             break;
           default:
-          allAnotherArticles.push({
-            nameResourse  : nameResourse,
-            author        : elementMassivu.author,
-            zagolovok     : elementMassivu.title,
-            linkArticle   : elementMassivu.url,
-            immageUrl     : elementMassivu.urlToImage,
-            dataPublished : elementMassivu.publishedAt
-          })
+          if (nameResourse == '' || elementMassivu.title == '' || elementMassivu.url == '' || elementMassivu.urlToImage == '' || nameResourse == null ||elementMassivu.title == null || elementMassivu.url == null || elementMassivu.urlToImage == null) {
+            botTelegram.sendMessage(chatIdErrorsChannel, `nameResourse  : ${nameResourse},
+            author        : ${elementMassivu.author},
+            zagolovok     : ${elementMassivu.title},
+            linkArticle   : ${elementMassivu.url},
+            immageUrl     : ${elementMassivu.urlToImage},
+            dataPublished : ${elementMassivu.publishedAt}`);
+            return;
+          } else {
+            allAnotherArticles.push({
+              nameResourse  : nameResourse,
+              author        : elementMassivu.author,
+              zagolovok     : elementMassivu.title,
+              linkArticle   : elementMassivu.url,
+              immageUrl     : elementMassivu.urlToImage,
+              dataPublished : elementMassivu.publishedAt
+            })
+          }
         }
 
       }

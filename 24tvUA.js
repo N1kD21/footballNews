@@ -35,16 +35,26 @@ async function zapitDo24tvUA(element) {
       if (massivTagText[0].startsWith('Про це повідомляє видання')) index = 1;
       string24tvUA = massivTagText[index];
     }
-    let result = {
-      nameResourse  : element.source.name,
-      author        : element.author,
-      zagolovok     : string24tvUA,
-      linkArticle   : element.url,
-      immageUrl     : element.urlToImage,
-      dataPublished : element.publishedAt
-    };
-    resolve(result);
-    reject('Ошибка, контент не найден')
+    if (element.source.name == '' || string24tvUA == '' || element.url == '' || element.urlToImage == '' || element.source.name == null || string24tvUA == null || element.url == null || element.urlToImage == null) {
+      botTelegram.sendMessage(chatIdErrorsChannel, `nameResourse  : ${element.source.name},
+      author        : ${elementMassivu.author},
+      zagolovok     : ${elementMassivu.title},
+      linkArticle   : ${elementMassivu.url},
+      immageUrl     : ${elementMassivu.urlToImage},
+      dataPublished : ${elementMassivu.publishedAt}`);
+      return;
+    } else {
+      let result = {
+        nameResourse  : element.source.name,
+        author        : element.author,
+        zagolovok     : string24tvUA,
+        linkArticle   : element.url,
+        immageUrl     : element.urlToImage,
+        dataPublished : element.publishedAt
+      };
+      resolve(result);
+    }
+//    reject('Ошибка, контент не найден')
   });
 }
 

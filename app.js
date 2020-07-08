@@ -59,7 +59,7 @@ async function otvetInChannel() {
   let massivCountry           = ['ua', 'ru'];
   let upravlenieMassiv        = [];
   let upravlenieMassivFilter  = [];
-  if (bufer.length > 100) {
+  if (bufer.length > 1000) {
     bufer = [];
   }
 //  let otvetGoogleNewsApiInteval = await zaprosFootballNews();

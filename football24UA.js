@@ -34,15 +34,25 @@ async function zapitDoFootball24UA(element) {
   }
   return new Promise(function(resolve, reject) {
     let stringFootball24UA = newArray.join('\n');
-    let result = {
-      nameResourse  : element.source.name,
-      author        : element.author,
-      zagolovok     : stringFootball24UA,
-      linkArticle   : element.url,
-      immageUrl     : element.urlToImage,
-      dataPublished : element.publishedAt
-    };
-    resolve(result);
+    if (element.source.name == '' || stringFootball24UA == '' || element.url == '' || element.urlToImage == '' || element.source.name == null || stringFootball24UA == null || element.url == null || element.urlToImage == null) {
+      botTelegram.sendMessage(chatIdErrorsChannel, `nameResourse  : ${element.source.name},
+      author        : ${element.author},
+      zagolovok     : ${element.title},
+      linkArticle   : ${element.url},
+      immageUrl     : ${element.urlToImage},
+      dataPublished : ${element.publishedAt}`);
+      return;
+    } else {
+      let result = {
+        nameResourse  : element.source.name,
+        author        : element.author,
+        zagolovok     : stringFootball24UA,
+        linkArticle   : element.url,
+        immageUrl     : element.urlToImage,
+        dataPublished : element.publishedAt
+      }
+      resolve(result);
+    }
   });
 }
 
