@@ -18,7 +18,7 @@ async function fetchFootballNews(url) {
   });
 }
 
-async function zaprosFootballNews(country){
+async function zaprosFootballNews(country) {
   const start = new Date().getTime();
   console.log('18', start);
   const API_KEY_GOOGLE      = '6f06874cc0a64418a5f03728e3c6744f';
@@ -51,7 +51,6 @@ async function zaprosFootballNews(country){
             linkArticle   : ${elementMassivu.url},
             immageUrl     : ${elementMassivu.urlToImage},
             dataPublished : ${elementMassivu.publishedAt}`);
-            return;
           } else {
             allAnotherArticles.push({
               nameResourse  : nameResourse,
@@ -78,5 +77,10 @@ async function zaprosFootballNews(country){
   });
 }
 
-//zaprosFootballNews();
+/*
+(async() => {
+  let vivod = await zaprosFootballNews('ua');
+  console.log(vivod);
+})()
+*/
 module.exports = zaprosFootballNews;

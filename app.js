@@ -53,7 +53,7 @@ botTelegram.onText(/(.+)/, async (msg) => {
 
 setInterval(otvetInChannel, 7200000);
 
-otvetInChannel()
+otvetInChannel();
 
 async function otvetInChannel() {
   let massivCountry           = ['ua', 'ru'];
@@ -63,8 +63,9 @@ async function otvetInChannel() {
     bufer = [];
   }
 //  let otvetGoogleNewsApiInteval = await zaprosFootballNews();
-  let otvetGoogleNewsApi  = await Promise.all(massivCountry.map(zaprosFootballNews));
-  let otvetGoogleNewsApiInteval = otvetGoogleNewsApi[0].concat(otvetGoogleNewsApi[1]);
+  let otvetGoogleNewsApi          = await Promise.all(massivCountry.map(zaprosFootballNews));
+  console.log('68. otvetGoogleNewsApi >>> ', otvetGoogleNewsApi);
+  let otvetGoogleNewsApiInteval   = otvetGoogleNewsApi[0].concat(otvetGoogleNewsApi[1]);
   if (counter == 0) {
     upravlenieMassiv = [{otvet: otvetGoogleNewsApiInteval, chatId: chatIdChanelModer}, {otvet: otvetGoogleNewsApiInteval, chatId: chatIdChanelModer2}]
     Promise.all(upravlenieMassiv.map(vivodGoogleNewsM))
@@ -83,18 +84,19 @@ async function otvetInChannel() {
 }
 
 async function vivodGoogleNewsM(object) {
-  let array         = object.otvet;
+  let arrayStat     = object.otvet;
   let chatIdGoogle  = object.chatId;
   let image         = '';
   let zagolovok     = '';
   let nameResourse  = '';
   let linkArticle   = '';
-  for (var i = 0; i < array.length; i++) {
-    if (array[i].error == undefined) {
-      if (array[i].immageUrl !== null || array[i].immageUrl !== undefined)        immage = array[i].immageUrl;
-      if (array[i].zagolovok !== null || array[i].zagolovok !== undefined)        zagolovok = array[i].zagolovok;
-      if (array[i].nameResourse !== null || array[i].nameResourse !== undefined)  nameResourse = array[i].nameResourse;
-      if (array[i].linkArticle !== null || array[i].linkArticle !== undefined)    linkArticle = array[i].linkArticle;
+  console.log('92. arrayStat >>> ', arrayStat);
+  for (var i = 0; i < arrayStat.length; i++) {
+    if (arrayStat[i].error == undefined) {
+      immage = arrayStat[i].immageUrl;
+      zagolovok = arrayStat[i].zagolovok;
+      nameResourse = arrayStat[i].nameResourse;
+      linkArticle = arrayStat[i].linkArticle;
       if (`${zagolovok}\n${nameResourse}\n${linkArticle}`.length < 1025) {
         await sayPhotoKeyboard(chatIdGoogle, immage, {caption: `${zagolovok}\n<a href="${linkArticle}">${nameResourse}</a>`});
       } else {
