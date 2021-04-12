@@ -7,14 +7,15 @@ const zapitDo24tvUA         = require('./24tvUA.js');
 const TelegramBot         = require('node-telegram-bot-api');
 const token               = '1311938608:AAHqH-jmF44MqxCadJphcBfV2H6YBUbTuQA';
 const chatIdErrorsChannel = '-1001370249186';
-const botTelegram         = new TelegramBot(token, {polling: true});
+const botTelegram         = new TelegramBot(token, { polling: true });
 
 
 async function fetchFootballNews(url) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     fetch(url)
-        .then(res => res.json()) // expecting a json response
-        .then(json => resolve(json));
+      .then((res) => res.json()) // expecting a json response
+      .then((json) => resolve(json))
+      .catch((err) => reject(err));
   });
 }
 
@@ -22,29 +23,31 @@ async function zaprosFootballNews(country) {
   const start = new Date().getTime();
   console.log('18', start);
   const API_KEY_GOOGLE      = '6f06874cc0a64418a5f03728e3c6744f';
-  let urlGoogleNews         = 'http://newsapi.org/v2/top-headlines?country=' + country + '&category=sports&apiKey=' + API_KEY_GOOGLE;
-  let dani_na_povernennia   = [];
-  return new Promise(async function (resolve, reject) {
-    let otvetGoogleNewsAPI      = await fetchFootballNews(urlGoogleNews);
-    if (otvetGoogleNewsAPI.status == 'ok') {
-      let allArticlesFootball24UA = [];
-      let allArticles24TVUA       = [];
-      let allAnotherArticles      = [];
-      for (var i = 0; i < otvetGoogleNewsAPI.articles.length; i++) {
-        let elementMassivu    = otvetGoogleNewsAPI.articles[i];
-        let nameResourse      = elementMassivu.source.name;
+  const urlGoogleNews         = 'http://newsapi.org/v2/top-headlines?country=' + country + '&category=sports&apiKey=' + API_KEY_GOOGLE;
+  //const daniNaPovernennia   = [];
+  return new Promise(async (resolve, reject) => {
+    const otvetGoogleNewsAPI      = await fetchFootballNews(urlGoogleNews);
+    if (otvetGoogleNewsAPI.status === 'ok') {
+      const allArticlesFootball24UA = [];
+      const allArticles24TVUA       = [];
+      const allAnotherArticles      = [];
+      for (let i = 0; i < otvetGoogleNewsAPI.articles.length; i++) {
+        const elementMassivu    = otvetGoogleNewsAPI.articles[i];
+        const nameResourse      = elementMassivu.source.name;
         switch (nameResourse) {
-          case '24tv.ua':
+        case '24tv.ua':
           allArticles24TVUA.push(elementMassivu);
-            break;
-          case 'football24.ua':
+          break;
+        case 'football24.ua':
           allArticlesFootball24UA.push(elementMassivu);
-            break;
-          case 'Football24.ua':
+          break;
+        case 'Football24.ua':
           allArticlesFootball24UA.push(elementMassivu);
-            break;
-          default:
-          if (nameResourse == '' || elementMassivu.title == '' || elementMassivu.url == '' || elementMassivu.urlToImage == '' || nameResourse == null ||elementMassivu.title == null || elementMassivu.url == null || elementMassivu.urlToImage == null) {
+          break;
+        default:
+          if (nameResourse === '' || elementMassivu.title === '' || elementMassivu.url === '' ||
+          elementMassivu.urlToImage === '' || nameResourse === null || elementMassivu.title === null ||
+          elementMassivu.url === null || elementMassivu.urlToImage === null) {
             botTelegram.sendMessage(chatIdErrorsChannel, `nameResourse  : ${nameResourse},
             author        : ${elementMassivu.author},
             zagolovok     : ${elementMassivu.title},
@@ -53,26 +56,26 @@ async function zaprosFootballNews(country) {
             dataPublished : ${elementMassivu.publishedAt}`);
           } else {
             allAnotherArticles.push({
-              nameResourse  : nameResourse,
-              author        : elementMassivu.author,
-              zagolovok     : elementMassivu.title,
-              linkArticle   : elementMassivu.url,
-              immageUrl     : elementMassivu.urlToImage,
-              dataPublished : elementMassivu.publishedAt
-            })
+              nameResourse,
+              author: elementMassivu.author,
+              zagolovok: elementMassivu.title,
+              linkArticle: elementMassivu.url,
+              immageUrl: elementMassivu.urlToImage,
+              dataPublished: elementMassivu.publishedAt
+            });
           }
         }
 
       }
-      let results24tvUA       = await Promise.all(allArticles24TVUA.map(zapitDo24tvUA));
-      let resultsFootball24UA = await Promise.all(allArticlesFootball24UA.map(zapitDoFootball24UA));
-      let dani_na_povernennia = allAnotherArticles.concat(resultsFootball24UA, results24tvUA);
-      resolve(dani_na_povernennia);
+      const results24tvUA       = await Promise.all(allArticles24TVUA.map(zapitDo24tvUA));
+      const resultsFootball24UA = await Promise.all(allArticlesFootball24UA.map(zapitDoFootball24UA));
+      const daniNaPovernennia = allAnotherArticles.concat(resultsFootball24UA, results24tvUA);
+      resolve(daniNaPovernennia);
     } else {
-      let dani_na_povernennia = [{
+      const daniNaPovernennia = [{
         error: true,
       }];
-      resolve(dani_na_povernennia);
+      reject(daniNaPovernennia);
     }
   });
 }
