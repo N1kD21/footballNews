@@ -1,0 +1,24 @@
+@startuml
+
+
+[Bot1] as Comp1
+[Коммутатор] as Comp0 #palegreen
+package "Источники" {
+  [Блок \n Google News] as Comp2
+  [Блок \n Barcelona] as Comp3
+  [Блок UEFA] as Comp4
+}
+note left of Comp0 : Нужно сделать максимально универсальным,\nлибо выработать схему общения Коммутатор -- Блок
+
+Comp1 -d-> Comp0
+Comp0 --> Comp2
+Comp0 --> Comp3
+Comp0 --> Comp4
+
+Comp2 --> Comp0
+Comp3 --> Comp0
+Comp4 --> Comp0
+
+Comp0 -u-> Comp1
+
+@enduml
