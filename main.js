@@ -5,8 +5,8 @@ const otvetInChannel      = require('./lib/otvetInChannel.js');
 //------Telegram
 const token               = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
 const chatIdChanelNews    = '-1001382295148';
-//const chatIdChanelModer   = '725519934';  //Вalera
 const chatIdChanelModer2  = '594504840';    // Кilya
+//const chatIdChanelModer   = '725519934';  //Вalera
 let bufer                 = [];
 let counter               = 0;
 
