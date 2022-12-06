@@ -19,6 +19,7 @@ botTelegram.onText(/(.+)/, async (msg) => {
   if (chatId !== chatIdChanelModer2) {
     console.log('20. msg.text ', msg.text);
     arrRes = await routFun();
+    console.log('arrRes-------------------------- ', arrRes);
   } else {
     console.log('23. msg.text ', msg.text);
   }
