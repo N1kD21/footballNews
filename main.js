@@ -24,7 +24,6 @@ botTelegram.onText(/(.+)/, async (msg) => {
   }
   bufer = bufer.concat(arrRes);
 });
-
 setInterval(routFun, 7200000);
 
 routFun();
@@ -159,19 +158,19 @@ botTurniketTelegram.onText(/(.+)/, async (msg) => {
   const chatId          = msg.chat.id;
   console.log('11. msg', msg);
   await sayTurniket(chatIdPrishelUshel, 'message_id: ' + msg.message_id + `,
-От кого:
- { id: ` + msg.from.id + `,
-   is_bot: ` + msg.from.is_bot + `,
-   first_name: ` + msg.from.first_name + `,
-   username: ` + msg.from.username + `,
-   Язык: ` + msg.from.language_code + ` },
-Информация о чате:
- { id_chat: ` + chatId + `,
-   first_name: ` + msg.chat.first_name + `,
-   username: ` + msg.chat.username + `,
-   Тип чата:  ` + msg.chat.type + `},
-Дата: ` + msg.date + `,
-Текст: ` + zaprosPhrase + ` }
+  От кого:
+  { id: ` + msg.from.id + `,
+  is_bot: ` + msg.from.is_bot + `,
+  first_name: ` + msg.from.first_name + `,
+  username: ` + msg.from.username + `,
+  Язык: ` + msg.from.language_code + ` },
+  Информация о чате:
+  { id_chat: ` + chatId + `,
+  first_name: ` + msg.chat.first_name + `,
+  username: ` + msg.chat.username + `,
+  Тип чата:  ` + msg.chat.type + `},
+  Дата: ` + msg.date + `,
+  Текст: ` + zaprosPhrase + ` }
 `);
   const textNearLink  = 'Для регистрации в канал о футбольных новостях нажмите на кнопку';
   await sayTurniketMessageKeyboard(chatId, textNearLink);
