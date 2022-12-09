@@ -2,11 +2,13 @@
 const TelegramBot         = require('node-telegram-bot-api');
 //const zaprosFootball      = require('./requestAllFootball.js');
 const otvetInChannel      = require('./lib/otvetInChannel.js');
+const ENV                 = require('./conf/env.js');
+
 //------Telegram
-const token               = '716536032:AAF679qSXFEjD3swXRKINrdgUYfoAysOLpc';
-const chatIdChanelNews    = '-1001382295148';
-const chatIdChanelModer2  = '594504840';    // Кilya
-//const chatIdChanelModer   = '725519934';  //Вalera
+const token               = ENV.TokenTelegram;
+const chatIdChanelNews    = ENV.chatIdChanelNews;
+const chatIdChanelModer2  = ENV.chatIdChanelModer2;    // Кilya
+//const chatIdChanelModer   = ENV.chatIdChanelModer;  //Вalera
 let bufer                 = [];
 let counter               = 0;
 
@@ -25,7 +27,8 @@ botTelegram.onText(/(.+)/, async (msg) => {
   }
   bufer = bufer.concat(arrRes);
 });
-setInterval(routFun, 7200000);
+//setInterval(routFun, 7200000);
+setInterval(routFun, 450000);
 
 routFun();
 
