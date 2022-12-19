@@ -33,35 +33,39 @@ setInterval(routFun, 450000);
 routFun();
 
 async function routFun() {
-  const arrRes = await otvetInChannel(bufer, counter);
-  counter++;
-  bufer = bufer.concat(arrRes);
-  for (let iteratorJ = 0; iteratorJ < arrRes.length; iteratorJ++) {
-    const item = arrRes[iteratorJ];
-    if (typeof item.caption === 'string') {
-      await sayPhotoKeyboard(chatIdChanelModer2, item.immage, { caption: item.caption });
-    } else {
-      let iteratorJ = 0;
-      let capt = '';
-      for (let i = 0; i < item.caption.length; i++) {
-        if (i === 0) {
-          await sayPhotoKeyboard(chatIdChanelModer2, item.immage, { caption: item.caption[0] });
-        } else {
-          capt = capt.concat(item.caption[i]);
-          if (i === item.caption.length - 1) {
-            await sayMessageKeyboard(chatIdChanelModer2, capt);
-          }
-          iteratorJ++;
-          if (iteratorJ === 4) {
-            await sayMessageKeyboard(chatIdChanelModer2, capt);
-            iteratorJ = 0;
-            capt = '';
+  try {
+    const arrRes = await otvetInChannel(bufer, counter);
+    counter++;
+    bufer = bufer.concat(arrRes);
+    for (let iteratorJ = 0; iteratorJ < arrRes.length; iteratorJ++) {
+      const item = arrRes[iteratorJ];
+      if (typeof item.caption === 'string') {
+        await sayPhotoKeyboard(chatIdChanelModer2, item.immage, { caption: item.caption });
+      } else {
+        let iteratorJ = 0;
+        let capt = '';
+        for (let i = 0; i < item.caption.length; i++) {
+          if (i === 0) {
+            await sayPhotoKeyboard(chatIdChanelModer2, item.immage, { caption: item.caption[0] });
+          } else {
+            capt = capt.concat(item.caption[i]);
+            if (i === item.caption.length - 1) {
+              await sayMessageKeyboard(chatIdChanelModer2, capt);
+            }
+            iteratorJ++;
+            if (iteratorJ === 4) {
+              await sayMessageKeyboard(chatIdChanelModer2, capt);
+              iteratorJ = 0;
+              capt = '';
+            }
           }
         }
       }
     }
+    return bufer;
+  } catch (e) {
+    console.log('Error \n', e);
   }
-  return bufer;
 }
 
 async function sayPhotoDefault(chatIdSay, urlPhoto, options) {
@@ -73,7 +77,10 @@ async function sayPhotoDefault(chatIdSay, urlPhoto, options) {
       'parse_mode': 'HTML'
     };
   }
-  await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
+  if (chatIdSay !== null || urlPhoto !== null) {
+    await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
+  }
+  throw new Error ('83. sayPhotoDefault main.js')
 }
 
 async function sayPhotoKeyboard(chatIdSay, urlPhoto, options) {
@@ -92,7 +99,10 @@ async function sayPhotoKeyboard(chatIdSay, urlPhoto, options) {
       ]
     }
   };
-  await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
+  if (chatIdSay !== null || urlPhoto !== null || options !== null) {
+    await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
+  }
+  throw new Error ('105. sayPhotoKeyboard main.js');
 }
 
 async function sayMessageDefault(chatIdSay, messageSay) {
@@ -100,7 +110,10 @@ async function sayMessageDefault(chatIdSay, messageSay) {
     'disable_web_page_preview': true,
     'parse_mode': 'HTML'
   };
-  await botTelegram.sendMessage(chatIdSay, messageSay, options);
+  if (chatIdSay !== null || messageSay !== null || options !== null) {
+    await botTelegram.sendMessage(chatIdSay, messageSay, options);
+  }
+  throw new Error ('116. sayMessageDefault main.js');
 }
 
 async function sayMessageKeyboard(chatIdSay, messageSay) {
@@ -118,7 +131,10 @@ async function sayMessageKeyboard(chatIdSay, messageSay) {
       ]
     }
   };
-  await botTelegram.sendMessage(chatIdSay, messageSay, optionsNew);
+  if (chatIdSay !== null || messageSay !== null || optionsNew !== null) {
+    await botTelegram.sendMessage(chatIdSay, messageSay, optionsNew);
+  }
+  throw new Error ('137. sayMessageKeyboard main.js');
 }
 
 
