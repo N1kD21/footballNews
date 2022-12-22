@@ -10,6 +10,7 @@ async function zaprosFootballNews(country) {
   const urlGoogleNews       = 'http://newsapi.org/v2/top-headlines?country=' + country + '&category=sports&apiKey=' + API_KEY_GOOGLE;
   const result      = await fetch(urlGoogleNews);
   const resultJSON  = JSON.parse(result);
+  console.log('13. googleNewsAPI ---- resultJSON -> ', resultJSON);
   return await sborkaOtveta(resultJSON);
 }
 
