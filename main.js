@@ -33,11 +33,11 @@ setInterval(routFun, 450000);
 routFun();
 
 async function routFun() {
-  try {
     const arrRes = await otvetInChannel(bufer, counter);
     counter++;
     bufer = bufer.concat(arrRes);
     for (let iteratorJ = 0; iteratorJ < arrRes.length; iteratorJ++) {
+      try {
       const item = arrRes[iteratorJ];
       if (typeof item.caption === 'string') {
         await sayPhotoKeyboard(chatIdChanelModer2, item.immage, { caption: item.caption });
@@ -51,8 +51,8 @@ async function routFun() {
             capt = capt.concat(item.caption[i]);
             if (i === item.caption.length - 1) {
               await sayMessageKeyboard(chatIdChanelModer2, capt);
+              iteratorJ++;
             }
-            iteratorJ++;
             if (iteratorJ === 4) {
               await sayMessageKeyboard(chatIdChanelModer2, capt);
               iteratorJ = 0;
@@ -61,11 +61,11 @@ async function routFun() {
           }
         }
       }
+    } catch (e) {
+      console.log('Error \n', e);
     }
-    return bufer;
-  } catch (e) {
-    console.log('Error \n', e);
   }
+  return bufer;
 }
 
 async function sayPhotoDefault(chatIdSay, urlPhoto, options) {
@@ -79,6 +79,7 @@ async function sayPhotoDefault(chatIdSay, urlPhoto, options) {
   }
   if (chatIdSay !== null || urlPhoto !== null) {
     await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
+    return;
   }
   throw new Error ('83. sayPhotoDefault main.js')
 }
@@ -101,6 +102,7 @@ async function sayPhotoKeyboard(chatIdSay, urlPhoto, options) {
   };
   if (chatIdSay !== null || urlPhoto !== null || options !== null) {
     await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
+    return;
   }
   throw new Error ('105. sayPhotoKeyboard main.js');
 }
@@ -112,6 +114,7 @@ async function sayMessageDefault(chatIdSay, messageSay) {
   };
   if (chatIdSay !== null || messageSay !== null || options !== null) {
     await botTelegram.sendMessage(chatIdSay, messageSay, options);
+    return;
   }
   throw new Error ('116. sayMessageDefault main.js');
 }
@@ -133,6 +136,7 @@ async function sayMessageKeyboard(chatIdSay, messageSay) {
   };
   if (chatIdSay !== null || messageSay !== null || optionsNew !== null) {
     await botTelegram.sendMessage(chatIdSay, messageSay, optionsNew);
+    return;
   }
   throw new Error ('137. sayMessageKeyboard main.js');
 }

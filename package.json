@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "google-auth-library": "^6.0.0",
     "googleapis": "^109.0.1",
+    "jsdom": "^20.0.3",
     "node-fetch": "^2.6.0",
     "node-telegram-bot-api": "^0.40.0",
     "node-url-shortener": "^1.0.1",
