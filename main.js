@@ -27,8 +27,8 @@ botTelegram.onText(/(.+)/, async (msg) => {
   }
   bufer = bufer.concat(arrRes);
 });
-//setInterval(routFun, 7200000);
-setInterval(routFun, 450000);
+setInterval(routFun, 7200000);
+//setInterval(routFun, 450000);
 
 routFun();
 
