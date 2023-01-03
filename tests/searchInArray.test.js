@@ -501,7 +501,433 @@ const arr2 = [
   }
 ];
 
-(async () => {
-  const vvv = await searchInArray(arr1, arr2);
-  console.log('506. vvv - > ', vvv);
-})();
+
+
+
+
+const arr3 = [
+  {
+    immage: 'https://pic.sport.ua/images/news/0/13/77/social_535481.jpg',
+    caption: 'Юрій КАЛИТВИНЦЕВ: «У Каргбо перелом і великої та малої гомілкової кісток» - Спорт.ua\n' +
+      '<a href="https://sport.ua/uk/news/535481-yuriy-kalitvintsev-u-kargbo-perelom-bolshoy-i-maloy-bertsovoy-kostey">Sport.ua</a>'
+  },
+  {
+    immage: 'https://pic.sport.ua/images/news/0/13/77/social_535455.jpg',
+    caption: 'За обопільною згодою сторін. Шиндер залишив Минай - Спорт.ua\n' +
+      '<a href="https://sport.ua/uk/news/535455-po-oboyudnomu-soglasiyu-storon-shinder-pokinul-minay">Sport.ua</a>'
+  },
+  {
+    immage: 'https://static.ua-football.com/img/upload/20/27bb6b.jpeg',
+    caption: 'Шацьких про Алієва: Мізки треба мати, що кажеш і кому кажеш - UA-Футбол\n' +
+      '<a href="https://www.ua-football.com/ua/ukrainian/news/1619624886-shackih-pro-aliyeva-mizki-treba-mati-scho-kazhesh-i-komu-kazhesh.html">Ua-football.com</a>'
+  },
+  {
+    immage: 'https://pic.sport.ua/images/news/0/13/77/social_535430.jpg',
+    caption: 'Олімпік - Зоря - 2:1. Скандальна перемога. Відео голів та огляд матчу - Спорт.ua\n' +
+      '<a href="https://sport.ua/uk/news/535430-olimpik-zarya-2-1-skandalnaya-pobeda-video-golov-i-obzor-matcha">Sport.ua</a>'
+  },
+  {
+    immage: 'https://pic.sport.ua/images/news/0/13/77/social_535453.jpg',
+    caption: 'Еліна Світоліна - Жиль Тайхман. Дивитися онлайн. LIVE трансляція - Спорт.ua\n' +
+      '<a href="https://sport.ua/uk/news/535453-elina-svitolina-zhil-tayhman-smotret-onlayn-live-translyatsiya">Sport.ua</a>'
+  },
+  {
+    immage: 'https://pic.sport.ua/images/news/0/13/77/social_535446.jpg',
+    caption: 'Андрій БОРЯЧУК: «Вкрали гол у мене і команди. Несправедливий результат» - Спорт.ua\n' +
+      '<a href="https://sport.ua/uk/news/535446-andrey-boryachuk-ukrali-gol-u-menya-i-komandy-nespravedliviy-rezultat">Sport.ua</a>'
+  },
+  {
+    immage: 'https://img.tsn.ua/cached/1611217038/tsn-75dc2b2fb4bc6487d12428d044230457/thumbs/1200x630/45/da/0a044da0342b83b5bb2702b8cd2ada45.jpeg',
+    caption: 'Роналду фото - футболіст купив найдорожчий маєток у Лісабоні - Спорт - TCH.ua - ТСН - Телевізійна служба новин\n' +
+      '<a href="https://tsn.ua/prosport/ronaldu-pridbav-naydorozhchiy-mayetok-u-lisaboni-foto-novogo-shikarnogo-zhitla-futbolista-1775710.html">Tsn.ua</a>'
+  },
+  {
+    immage: 'https://pic.sport.ua/images/news/0/13/77/social_535432.jpg',
+    caption: 'Віталій ВЕРНИДУБ: «Зорю обікрали. А Олімпік не отримав задоволення від гри» - Спорт.ua\n' +
+      '<a href="https://sport.ua/uk/news/535432-vitaliy-vernidub-zaryu-obokrali-a-olimpik-ne-poluchil-udovolstvie">Sport.ua</a>'
+  },
+  {
+    immage: 'https://pic.sport.ua/images/news/0/13/77/social_535429.jpg',
+    caption: 'У Коноплянки серйозна травма, Ісмаїлі незабаром повернеться до тренувань - Спорт.ua\n' +
+      '<a href="https://sport.ua/uk/news/535429-u-konoplyanki-seryeznaya-travma-ismaili-vskore-vernetsya-v-obshchuyu-gruppu">Sport.ua</a>'
+  },
+  {
+    immage: 'https://pic.sport.ua/images/news/0/13/77/social_535420.jpg',
+    caption: 'За крок від камбеку. Збірна України програла Чехії в матчі відбору на Євро - Спорт.ua\n' +
+      '<a href="https://sport.ua/uk/news/535420-v-shage-ot-kambeka-sbornaya-ukrainy-proigrala-chehii-v-matche-otbora-na-evro">Sport.ua</a>'
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660973.jpg',
+    caption: [
+      'Головний тренер Манчестер Сіті Хосеп Гвардіола поділився враженнями від першого півфіналу Ліги чемпіонів проти ПСЖ.\n' +
+        '"Ми чудово почали гру, але, пропустивши, відчули тиск. Для багатьох це був перший півфінал ЛЧ, і хлопці хотіли зіграти якнайкраще. Останні 10 хвилин тайму були непогані, а після перерви ми були блискучими у всіх аспектах. Ми забили два голи на виїзді. Через 6 днів нам належить важка робота.\n' +
+        'Іноді потрібно трохи розслабитися і бути собою. Те, що було в першому таймі, нормально: не хочеться втрачати м\'яч, це сковує. Але потім ми змінили трохи наш пресинг, стали агресивнішими. Звичайно, нелегко грати проти Мбаппе, Неймара, Ді Марії.\n' +
+        'Ми двічі забили і могли знову це зробити. Я задоволений грою, але позаду лише половина шляху. Далі на нас чекають ще 90 хвилин. ПСЖ – хороша команда, статися може що завгодно. Проти Борусії Дортмунд ми пропустили, а потім відігралися. Сьогодні – теж. У другому таймі ми були собою. Нам вдається грати певним чином – а інакше не виходить", – зазначив Гвардіола у коментарі',
+      ' BT Sport.\n' +
+        'Зазначимо, що Манчестер Сіті здійснив камбек у першому півфіналі Ліги чемпіонів, обігравши ПСЖ на виїзді (2:1), а до одного з голів був залучений Зінченко. Матч-відповідь запланований на 4 травня, початок о 22:00.\n' +
+        '<a href="https://football24.ua/pszh__manchester_siti_gvardiola_rozkriv_sekret_uspihu_mistyan_u_drugomu_taymi__doluchivsya_zinchenko_n660973/">Football24.ua</a>'
+    ]
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660833.jpg',
+    caption: [
+      'Манчестер Юнайтед приймає Рому у першому матчі 1/2 фіналу Ліги Європи. Анонс і прогноз на поєдинок читайте на "Футбол 24".\n' +
+        '29 квітня, 22:00. Манчестер, Олд Траффорд\n' +
+        'Головний арбітр: Карлос дель Серро (Іспанія)\n' +
+        'Пряма трансляція на телеканалі "Футбол 1", а також на платформі oll.tv і MEGOGO. Текстовий онлайн проведе "Футбол 24".\n' +
+        'Ліга Європи – останній шанс для МЮ щось виграти у цьому сезоні. З англійськими кубками не склалося, а відставання від Ман Сіті у чемпіонаті не залишає простору для ілюзій. Тим не менше, на другій позиції команда Сульшера закріпилася доволі надійно, потраплянню у груповий етап наступного розіграшу ЛЧ нічого не загрожує.\n' +
+        '"Потримай моє пиво, – промовляють у Ромі. – Нам би ваші проблеми". Римський клуб відверто провалив кампанію у Серії А, шансів на путівку в ЛЧ через чемпіонат – немає. Тим контрастнішою виглядає переконлива хода "вовків" у Лізі Європи. Рома – єдина італійська команда, яка продовжує битися на міжнародному фронті за честь своєї країни. А можливість виграти фінал ЛЄ',
+      ' і застрибнути в останній вагон потяга, що вирушить до наступної ЛЧ, робить банду Фонсеки в рази мотивованішою та небезпечнішою.\n' +
+        'Ймовірно, у столичному клубі вже змирилися з тим, що наздогнати Мілан, Наполі чи Ювентус не вдасться, а тому минулого вікенду не кидали всі сили, щоб відігратися проти Кальярі – поразка 2:3, яка, до речі, стала ювілейною, десятою у чинному сезоні Кальчо. МЮ, до слова, того ж дня розписав нульову нічию на полі Лідса.\n' +
+        '"Червоні дияволи" – дуже незручний суперник для Роми. Цікаво, що всі три попередні єврокубкові дуелі між клубами втиснулися у проміжку між квітнем 2007-го і квітнем 2008-го. Спершу Юнайтед обскубли "вовків" у чвертьфіналі ЛЧ – 1:2, 7:1. Восени перетнулися у груповому турнірі – 1:0, 1:1. А весною 2008-го – знову чвертьфінал, знову тріумф Манчестера (2:0, 1:0).\n' +
+        'Зрозуміло, що історичний бекграунд б’є по гонору римлян і спонукає врешті перервати цю невдалу серію. А у двох зірок команди є ще й особисті історії із британським грандом. Кріс Смоллінг відіграв на Олд Траффорд',
+      ' 10 років – і саме звідси переїхав до Риму. А Генріх Мхітарян уклав контракт з МЮ на піку своєї слави, перейшовши із Дортмунда у 2016-му, але важливим гравцем у Манчестері так і не став. Обидва екс-"дияволи" нещодавно відновилися від травм і готові протистояти колишньому клубу.\n' +
+        'Дуже ймовірною є поява на полі двох іменитих центрфорвардів. З-поміж усіх італійських клубів Едінсон Кавані найчастіше забивав саме Ромі – 9 голів. Натомість МЮ – солодка булочка для Едіна Джеко (6 голів). Голеадорське протистояння – ще одна фішка італо-англійської дуелі.\n' +
+        'МЮ: Де Хеа – Ван-Біссака, Байлі, Магуайр, Шоу – Фред, Мактомінай – Рашфорд, Бруну, Погба – Кавані\n' +
+        'Рома: Пау Лопес – Ібаньєс, Смоллінг, Крістанте – Карсдорп, Верету, Діавара, Перес – Пеллегріні, Мхітарян – Джеко\n' +
+        'Травмовані: Джонс, Марсьяль – Дзаньйоло, Калафіорі, Педро\n' +
+        'Дискваліфікований: Манчіні (Рома)\n' +
+        'Рома забиває бодай один м’яч у 10 останніх матчах Ліги Європи. Натомість МЮ полюбляє створити собі проблеми на рівному місці, пропустивши першим, і лише після цього',
+      ' вмикається у гру. Скільки таких матчів було у цьому сезоні? Тому Рома має великі шанси забити важливий для себе м’яч на Олд Траффорд. У букмекерів явним фаворитом виступає англійський клуб, проте, схоже, доля путівки у фінал вирішиться не сьогодні, а через тиждень.\n' +
+        '<a href="https://football24.ua/manchester_yunayted_roma_anons_matchu_29_04_2021_liga_yevropi_n660833/">Football24.ua</a>'
+    ]
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660912.jpg',
+    caption: 'Наставник збірної України Андрій Шевченко з користю для душі проводить вільний від роботи час.\n' +
+      '44-річний наставник "синьо-жовтих" провів час у компанії своїх товаришів і за сумісництвом легенд Челсі – Джанфранко Дзоли та Джона Террі.\n' +
+      'Всі вони пограли у гольф недалеко від замку Віндзор. Фото Андрій Шевченко опублікував у своєму Twitter. "Чудово провели час у гольф-клубі Вентворт у хорошій компанії", – написав головний тренер збірної України.\n' +
+      'До слова, Джон Террі обіймає посаду асистента наставника Астон Вілли, Джанфранко Дзола поки безробітній, а останнім місцем його роботи було Челсі. Андрій Шевченко, своєю чергою, готується до групового етапу Євро-2020.\n' +
+      ' \n' +
+      '<a href="https://football24.ua/shevchenko_pograv_u_golf_z_eks_zirkami_chelsi__legendarnist_foto_zashkalyuye_n660912/">Football24.ua</a>'
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660965.jpg',
+    caption: 'Одразу два українські представники отримали приємне визнання від EA Sports.\n' +
+      'EA Sports у своєму Twitter представила команду 31-го тижня FIFA 21, що складається з 23 гравців, які проявили себе найяскравіше.\n' +
+      'У цьому списку знайшлось місце Циганкову та Маліновському. Віктор оформив дубль в поєдинку з Інгульцем (5:0), перемога в якому гарантувала киянам дострокове чемпіонство. А от Руслан записав до свого активу гол і пас в матчі проти Болоньї (5:0).\n' +
+      'До слова, хавбек Аталанти у 37 зустрічах поточного сезону відзначився 7 голами та 9 асистами, а півзахисник Динамо забив 14 м\'ячів та віддав 9 гольових передач у 31 поєдинку.\n' +
+      ' \n' +
+      '<a href="https://football24.ua/malinovskiy_ta_tsigankov_potrapili_u_simvolichnu_zbirnu_tizhnya_fifa_n660965/">Football24.ua</a>'
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660961.jpg',
+    caption: 'Ліонель Мессі готовий піти назустріч Барселоні щодо фінансової частини контракту.\n' +
+      'Хорхе Мессі, батько зіркового форварда Барси, повечеряв із президентом клубу Жоаном Лапортою, повідомляє Mundo Deportivo з посиланням на TV-3.\n' +
+      'Сторони обговорювали майбутнє 33-річного аргентинця, і підсумками діалогу обидві сторони залишились задовлені. Ліонель знає про фінансові справи клубу і готовий піти на зниження зарплати удвічі. Натомість Мессі хоче отримати від "блаугранас" гнучкий контракт на 10 років, відповідно до якого Лео два роки проведе у статусі гравця Барси, потім завершить кар\'єру в МЛС, а вже після цього повернеться у каталонський клуб на посаду у спортивному департаменті.\n' +
+      'Нагадаємо, чинний контракт Ліонеля з Барселоною розрахований до липня.\n' +
+      '<a href="https://football24.ua/messi_hoche_otrimati_vid_barseloni_kontrakt_na_10_rokiv__batko_lionelya_rozpochav_dialog_z_laportoyu_n660961/">Football24.ua</a>'
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660952.jpg',
+    caption: 'Легія захистила чемпіонський титул у сезоні 2020/21. За "військових" на правах оренди виступають два українці – Артем Шабанов та Назарій Русин.\n' +
+      'Трімфатором Екстракляси сезону 2020/21 стала Легія. Варшавський гранд оформив дострокову звитягу через нічию найближчого переслідувача – Ракува. Команда зіграла 0:0 з Ягеллонією.\n' +
+      'Таким чином "зелені" стали недосяжними на вершині турнірної таблиці, оформивши 9-очковий відрив. Цікаво й те, що для Легії чемпіонство стало 15-м в історії. Тепер це новий рекорд Екстракляси. До цього варшав\'яни мали по 14 тріумфів разом з Гурніком та Рухом Хожув.\n' +
+      'Зауважимо, що взимку Легія підписала двох гравців Динамо на правах оренди. Артем Шабанов до травми провів у польській першості 7 зустрічей, а Назарій Русин не зіграв на полі жодної секунди. Угода оборонця завершується влітку, а форварда, який зараз перебуває в дублі, – взимку 2021-го.\n' +
+      '<a href="https://football24.ua/legiya_za_yaku_vistupayut_shabanov_ta_rusin_stala_chempionom_polshhi_rekordniy_raz_n660952/">Football24.ua</a>'
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660946.jpg',
+    caption: 'Львів та Рух не виявили сильнішого у львівському дербі. Дивіться відео голів та огляд найцікавіших моментів зустрічі на "Футбол 24".\n' +
+      'Номінальні господарі розпочали матч дуже активно, але забив першим Рух. Стаменковіч, вигравши верхову боротьбу, асистував Борячуку. Андрій головою розстріляв кіпера, але арбітр після перегляду VAR скасував взяття воріт.\n' +
+      'Після цього відзначився Львів. Альваро елегантним пасом вирізав на Ернеста, той пробив точно у дальній кут. По перерві "жовто-чорні" відігрались завдяки пенальті. Бусько необачно зіграв у штрафному рукою, а Кондраков реалізував 11-метровий. За кілька миттєвостей другу жовту отримав Міхобі, але Рух дотиснути "містян" не зміг.\n' +
+      'Команда Федика розташувалась на 12 позиції, випереджаючи останню сходинку на 3 залікові бали. Підопічні Безсмертного залишилися дев\'ятими, майже гарантувавши собі участь в УПЛ сезону 2021/22.\n' +
+      ' \n' +
+      ' \n' +
+      '<a href="https://football24.ua/penalti_skasovaniy_gol_ta_viluchennya_u_videooglyadi_matchu_lviv__ruh__11_n660946/">Football24.ua</a>'
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660943.jpg',
+    caption: [
+      'Головний тренер Зорі Віктор Скрипник дав відвертий коментар після програного поєдинку проти Олімпіка (1:2).\n' +
+        '"Якщо так взяти – дуже мало про саму гру говорю. Це триває вже багато матчів. Не кажу, що поспіль, але мені просто шкода моїх хлопців. Нічого, ми все одно будемо третіми. Шкода, що ми підходимо наверх, а нам дають понюхати. Якщо чесно, нервів не вистачає.\n' +
+        'Екзотики вистачає мені в Україні. Ще раз скажу – боремося з вітряними млинами. Всі все розуміють, але якось у нас все ось так от. Жодних коментарів щодо рішень – все йде, як воно треба комусь. Епізод з червоною? Ну ви мене витягаєте. Запитайте у судді. Хтось там сидить нагорі. Є динаміка моменту, воротар перший на м\'ячі, фіксується офсайд, а потім повертається і дивиться повтор. Знову ж таки, мені шкода моїх хлопців.\n' +
+        'Незарахований гол? Ну знову. Я вже надивився – хтось висловлюється, а потім їхнім командам виписують попередження, штрафи. Гравці роздратовані ситуацією, де ми просто нічого не можемо. Який футбол? Він завжди складається з таких рішень',
+      ' – там перекрутили, там свиснули, там вигнали, там скасували: починається цей кінозал, м**ть. Все якось так у нас, якісь рішення – маячня божевільного. Судді повинні викликати повагу виконаною роботою, сьогодні вони повагу не викликали", – резюмував Скрипник в ефірі програми Тур Online.\n' +
+        'Зауважимо, головним арбітром перенесеного матчу 10-го туру був Микола Балакін.\n' +
+        '<a href="https://football24.ua/pidhodimo_naverh_a_nam_dayut_ponyuhati_emotsiyniy_skripnik_maye_pitannya_do_arbitriv_pislya_porazki_vid_olimpika_n660943/">Football24.ua</a>'
+    ]
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660936.jpg',
+    caption: [
+      'Лікар першої команди Шахтаря Вадим Попов поділився невтішними новинами щодо травм Жуніора Мораєса та Валерія Бондаря.\n' +
+        '"Жуніор минулого тижня отримав дуже серйозну травму – розрив бокової та хрестоподібної зв\'язок коліна. Це одна з найскладніших травм, що є у футболі, вона передбачає тривалий період післяопераційної реабілітації – дев’ять місяців, щоб повернути гравця до строю. Мораєс у супроводі Артура Глущенка полетів до Іспанії, де в одній з місцевих клінік Жуніору було зроблено операцію. Після повернення до України на футболіста чекає період відновлення.\n' +
+        'Бондар? Багато хто, напевне, бачив те страшне зіткнення, коли нога просто пішла в бік... Було дуже схоже, що у Валерія така сама травма, як і в Жуніора, проте, на щастя, МРТ це не підтвердила. Хрестоподібна зв\'язка в нього ціла, однак є ушкодження медіальної бокової зв\'язки колінного суглоба. Стався субтотальний розрив. Ця травма також досить неприємна, але період відновлення коротший – місяці три.\n' +
+        'Найголовніше, що Валерію наразі не потрібне хірургічне',
+      ' втручання. Намагатимемось обійтися тільки терапевтичними засобами: реабілітація, фізіотерапія, введемо фактор росту, і зв\'язка повинна загоїтись. Трохи згодом проведемо додаткове обстеження, й тоді остаточно буде ухвалено рішення щодо тактики лікування. Але все одно спортсмен залишиться без футболу на два-три місяці", – цитує Попова офіційний сайт Шахтаря з посиланням на Shakhtar TV.\n' +
+        'До слова, отримані травми унеможливлюють участь і Жуніора Мораєса, і Валерія Бондаря у груповому етапі Євро-2020 цього літа.\n' +
+        '<a href="https://football24.ua/shahtar_ogolosiv_termini_vidnovlennya_morayesa_ta_bondarya__forvard_vzhe_ne_zigraye_v_2021_mu_oborontsyu_poshhastilo_bilshe_n660936/">Football24.ua</a>'
+    ]
+  },
+  {
+    immage: 'https://img.championat.com/news/social/b/5e/4334467.jpg',
+    caption: 'У «Спартака» намечается большая проблема: нет надёжного вратаря вместо Максименко - Чемпионат\n' +
+      '<a href="https://www.championat.com/football/article-4334467-maksimenko-ne-sygraet-s-arsenalom-iz-za-diskvalifikacii-kakogo-vratarya-dolzhen-vybrat-spartak-v-tule.html">Championat.com</a>'
+  },
+  {
+    immage: 'http://www.khl.ru/upload/iblock/1f7/1f769fe1e25b71f36f2fe3677d9eec92.jpg',
+    caption: 'Первый Кубок Гагарина «Авангарда»! Эмоции чемпионов : Новости : Континентальная Хоккейная Лига - КХЛ\n' +
+      '<a href="https://www.khl.ru/news/2021/04/29/484626.html">Www.khl.ru</a>'
+  },
+  {
+    immage: 'https://img.championat.com/news2/social/3/6b/4334845.jpg',
+    caption: '«ПСЖ» — «Манчестер Сити»: результат матча Лиги чемпионов, как сыграли, какой счёт - Чемпионат\n' +
+      '<a href="https://www.championat.com/bets/news-4334845-pszh-manchester-siti-rezultat-matcha-ligi-chempionov-kak-sygrali-kakoj-schyot.html">Championat.com</a>'
+  },
+  {
+    immage: 'https://s0.rbk.ru/v6_top_pics/media/img/6/12/756196437976126.jpg',
+    caption: '«Кубок Гагарина у канадца — плохо». Реакция на победу «Авангарда» в КХЛ - РБК Спорт\n' +
+      '<a href="https://sportrbc.ru/news/6089b7ff9a7947108d122613">Sportrbc.ru</a>'
+  },
+  {
+    immage: 'https://img.championat.com/news2/social/5/bc/4334737.jpg',
+    caption: 'Бородюк извинился перед болельщиками «Торпедо» после разгромного поражения от «Крыльев» - Чемпионат\n' +
+      '<a href="https://www.championat.com/football/news-4334737-borodyuk-izvinilsya-pered-bolelschikami-torpedo-posle-razgromnogo-porazheniya-ot-krylev.html">Championat.com</a>'
+  },
+  {
+    immage: 'https://news.mail.ru/social_preview/46139086/sport/?time=eb3503c8f5b8868337e1bd07fdbe2842',
+    caption: 'ЦСКА вышел в «Финал четырех» Евролиги - Спорт Mail.ru\n' +
+      '<a href="https://sportmail.ru/news/basketball-eurocups/46139086/">Sportmail.ru</a>'
+  },
+  {
+    immage: 'https://ss.sport-express.ru/userfiles/materials/167/1671984/large.jpg',
+    caption: 'ЦСКА шокировал «Фенер», «Зенит» поборолся с «Барселоной» - Спорт-Экспресс\n' +
+      '<a href="https://www.sport-express.ru/basketball/euroleague/reviews/zenit-barselona-70-78-fenerbahche-cska-68-85-obzor-tretih-matchey-pley-off-evroligi-1783548/">Sport-express.ru</a>'
+  },
+  {
+    immage: 'https://www.sports.ru/dynamic_images/news/109/657/198/4/share/24487f.jpg',
+    caption: 'Лапорта встретился с отцом Месси, чтобы обсудить контракт Лео. Через два года капитан «Барсы» хочет уехать в М - Sports.ru\n' +
+      '<a href="https://www.sports.ru/football/1096571984-laporta-vstretilsya-s-otczom-messi-chtoby-obsudit-kontrakt-leo-cherez-.html">Sports.ru</a>'
+  },
+  {
+    immage: 'https://news.mail.ru/social_preview/46138971/sport/?time=f3ca89bc17309e4d6fb42d06b576b665',
+    caption: 'Гинер и Бабаев могут перебраться в «Крылья Советов» - Спорт Mail.ru\n' +
+      '<a href="https://sportmail.ru/news/football-rus-premier/46138971/">Sportmail.ru</a>'
+  },
+  {
+    immage: 'https://www.m24.ru/b/d/nBkSUhL2hFUnm8y1J76BrNOp2Z398pj21yHDh_fH_nKUPXuaDyXTjHou4MVO6BCVoZKf9GqVe5Q_CPawk214LyWK9G1N5ho=5fxRyeYaSRS4ER-z23i3Tg.jpg',
+    caption: 'WADA оценило инцидент с российским флагом на ЧМ по шашкам - Москва 24\n' +
+      '<a href="https://www.m24.ru/news/sport/28042021/163293">Www.m24.ru</a>'
+  },
+  {
+    immage: 'https://cdn21.img.ria.ru/images/sharing/article/1730394552.jpg?17303959201619634716',
+    caption: 'СМИ: на бывшего директора академии \'Чертаново\' заведено уголовное дело - Спорт РИА Новости\n' +
+      '<a href="https://rsport.ria.ru/20210428/larin-1730394552.html">Rsport.ria.ru</a>'
+  },
+  {
+    immage: 'https://www.sports.ru/dynamic_images/news/109/656/837/6/share/d1a48b.jpg',
+    caption: 'Основатель Spotify Эк предложит Кронке 1,8 млрд фунтов за «Арсенал» - Sports.ru\n' +
+      '<a href="https://www.sports.ru/football/1096568376-osnovatel-spotify-ek-predlozhit-kronke-1-8-mlrd-funtov-za-arsenal.html">Sports.ru</a>'
+  },
+  {
+    immage: 'https://s-cdn.sportbox.ru/images/shares/1200x600/node/c0/1345850.jpg',
+    caption: 'Российские гандболисты обыграли Фарерские острова и досрочно вышли на чемпионат Европы - news.Sportbox.ru\n' +
+      '<a href="https://news.sportbox.ru/Vidy_sporta/Gandbol/spbnews_NI1345850_Rossijskije_gandbolisty_obygrali_Farerskije_ostrova_i_dosrochno_vyshli_na_chempionat_Jevropy">Sportbox.ru</a>'
+  },
+  {
+    immage: 'https://n1s1.starhit.ru/3d/45/87/3d458744f5462630f05cb9a28f56dfeb/800x420_0_ec2df4523d266f70f216e15756b71f92@800x420_0xac120003_8713033871619628843.jpg',
+    caption: 'Ляйсан Утяшева: «Была жестко кормящей мамой с депрессией и не видела себя в проекте «ТАНЦЫ» - StarHit.ru\n' +
+      '<a href="https://www.starhit.ru/novosti/lyaysan-utyasheva-byila-jestko-kormyaschey-mamoy-s-depressiey-i-ne-videla-sebya-v-proekte-tantsyi-239812/">Starhit.ru</a>'
+  },
+  {
+    immage: 'https://www.sports.ru/dynamic_images/news/109/656/545/9/share/21b9c3.jpg',
+    caption: '«Чуть не расплакался в раздевалке». Зырянов о победе «Зенита» над «Спартаком» в матче молодежек - Sports.ru\n' +
+      '<a href="https://www.sports.ru/football/1096565459-chut-ne-rasplakalsya-v-razdevalke-zyryanov-o-pobede-zenita-nad-spartak.html">Sports.ru</a>'
+  },
+  {
+    immage: 'https://icdn.lenta.ru/images/2021/04/28/18/20210428183546413/share_bcdd2e1fb323d7b8ed77866d5145d4e8.jpg',
+    caption: 'Россиянин лишился десятков тысяч рублей после знакомства с девушкой в Tinder - Lenta.ru\n' +
+      '<a href="https://lenta.ru/news/2021/04/28/teator/">Lenta</a>'
+  },
+  {
+    immage: 'https://img.championat.com/news/social/f/46/4334409.jpg',
+    caption: 'Конор снова вышел сухим из воды. Грозило банкротство, а в итоге заработал сотни миллионов - Чемпионат\n' +
+      '<a href="https://www.championat.com/boxing/article-4334409-konor-makgregor-prodal-kontrolnyj-paket-akcij-svoego-brenda-viski-za-600-mln.html">Championat.com</a>'
+  },
+  {
+    immage: 'https://i.eurosport.com/2021/04/27/3122160-63998928-2560-1440.jpg',
+    caption: 'Массимилиано Аллегри сменит Андреа Пирло на посту главного тренера «Ювентуса» (SportMediaset) - Eurosport RU\n' +
+      '<a href="https://www.eurosport.ru/football/serie-a/2020-2021/story_sto8295213.shtml">Eurosport.ru</a>'
+  },
+  {
+    immage: 'https://news.mail.ru/social_preview/46136072/sport/?time=3bf237f5cdc7cd519743952331c51b45',
+    caption: 'Агент форварда «Челси» Угбо подтвердил интерес со стороны ЦСКА - Спорт Mail.ru\n' +
+      '<a href="https://sportmail.ru/news/football-rus-premier/46136072/">Sportmail.ru</a>'
+  },
+  {
+    immage: 'https://i.eurosport.com/2021/04/28/3122796-64011648-2560-1440.jpg',
+    caption: 'Чемпион мира по хоккею с мячом Роман Гейзель умер после попытки самоубийства - Eurosport RU\n' +
+      '<a href="https://www.eurosport.ru/bandy/story_sto8295281.shtml">Eurosport.ru</a>'
+  }, 
+  {
+    immage: 'https://pic.sport.ua/images/news/0/13/77/social_535502.jpg',
+    caption: 'Мирослав СТУПАР: «Вилучення Васіля - це абсурд» - Спорт.ua\n' +
+      '<a href="https://sport.ua/uk/news/535502-miroslav-stupar-udalenie-vasilya-eto-absurd">Sport.ua</a>'
+  },
+  {
+    immage: 'https://pic.sport.ua/images/news/0/13/77/social_535487.jpg',
+    caption: 'Лень провів вражаючий матч і допоміг Вашингтону обіграти Лейкерс - Спорт.ua\n' +
+      '<a href="https://sport.ua/uk/news/535487-len-provel-vpechatlyayushchiy-match-i-pomog-vashingtonu-obygrat-leykers">Sport.ua</a>'
+  },  
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660991.jpg',
+    caption: 'Секс-скандал навколо нападника Ювентуса Кріштіану Роналду не вщухає.\n' +
+      'Американська модель Кетрін Майорга продовжує "атакувати" Кріштіану Роналду позовами, хоча раніше суд відхилив звинувачення у бік португальця щодо згвалтування, повідомляє Mirror.\n' +
+      'У документах зазначається, що жінка вимагає у форварда Ювентуса понад 60 млн євро компенсації за "біль і страждання".\n' +
+      'Нагадаємо, три роки тому Майорга заявила, що у 2009-му Кріштіану згвалтував її. Пізніше стало відомо, що між жінкою та футболістом були інтимні стосунки за обопільною згодою, а у 2010-му Роналду заплатив моделі 375 тисяч доларів за нерозголошення інформації.\n' +
+      '<a href="https://football24.ua/mayorga_vimagaye_u_ronaldu_ponad_60_mln_yevro_za_spravoyu_pro_zgvaltuvannya_n660991/">Football24.ua</a>'
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660985.jpg',
+    caption: 'Донецький Шахтар всерйоз налаштований на підписання наставника Сассуоло Роберто Де Дзербі та може здійснити трансфер двох гравців для нового тренера.\n' +
+      '"Гірники" готові оформити трансфери Філіпа Джурічіча та Жеремі Бога, які виступають у складі Сассуоло. За інформацією La Gazzetta dello Sport, Де Дзербі бажає бачити обох гравців у новому клубі.\n' +
+      'Портал Transfermarkt оцінює сербського хавбека у 10 млн євро, а от Бога є однією з головних зірок команди – його оцінюють в 22 млн. Шахтар має нагоду підписати обох футболістів за зниженою вартістю, оскільки їхні контракти завершуються наступного літа.\n' +
+      'До слова, Джурічіч провів 29 поєдинків у поточному сезоні у складі Сассуоло, записавши до свого активу 5 голів та 4 асисти. Бога відіграв за "нероверді" 24 матчі, відзначившись 3 голами та 2 результативними передачами.\n' +
+      '<a href="https://football24.ua/shahtar_gotoviy_pidpisati_dvoh_gravtsiv_iz_seriyi_a_zaradi_de_dzerbi__gds_n660985/">Football24.ua</a>'
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660977.jpg',
+    caption: [
+      'Український нападник Антон Шиндер більше не є одноклубником Артема Мілевського.\n' +
+        '"Поки що давайте обійдемося без конкретики. Як кажуть в таких випадках, розірвали з клубом контракт за обопільною згодою сторін. Бажаю вже колишнім партнерам успіху в боротьбі за збереження "прописки" в елітному дивізіоні.\n' +
+        `Сьогодні повертаюся до Німеччини, де проживає моя сім'я. З кар'єрою футболіста закінчувати не збираюся. Думаю, що 2-3 сезони ще буду затребуваний", – розповів Шиндер у коментарі meta-ratings.\n` +
+        'Нагадаємо, Антон приєднався до Миная у вересні цього року. До цього він виступав за Таврію, Шахтар, Чорноморець та Ворсклу. Шиндер останній сезон встиг відіграти за кордоном у складі Швабаха, який виступає у шостому німецькому дивізіоні (20 матчів, 12 голів). Також нападник відіграв 2 поєдинки у складі національної збірної України (2011-12 роки). За Минай Шиндер встиг провести 21 поєдинок в усіх турнірах, та відзначитись 3 голами.\n' +
+        '<a href="https://football24.ua/shinder_ogolosiv_pro_vidhid_z_minaya_n660977/">Football24.ua</a',
+      'Український нападник Антон Шиндер більше не є одноклубником Артема Мілевського.\n' +
+        '"Поки що давайте обійдемося без конкретики. Як кажуть в таких випадках, розірвали з клубом контракт за обопільною згодою сторін. Бажаю вже колишнім партнерам успіху в боротьбі за збереження "прописки" в елітному дивізіоні.\n' +
+        `Сьогодні повертаюся до Німеччини, де проживає моя сім'я. З кар'єрою футболіста закінчувати не збираюся. Думаю, що 2-3 сезони ще буду затребуваний", – розповів Шиндер у коментарі meta-ratings.\n` +
+        'Нагадаємо, Антон приєднався до Миная у вересні цього року. До цього він виступав за Таврію, Шахтар, Чорноморець та Ворсклу. Шиндер останній сезон встиг відіграти за кордоном у складі Швабаха, який виступає у шостому німецькому дивізіоні (20 матчів, 12 голів). Також нападник відіграв 2 поєдинки у складі національної збірної України (2011-12 роки). За Минай Шиндер встиг провести 21 поєдинок в усіх турнірах, та відзначитись 3 голами.\n' +
+        '<a href="https://football24.ua/shinder_ogolosiv_pro_vidhid_z_minaya_n660977/">Football24.ua</a'
+    ]
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660975.jpg',
+    caption: 'Захисник Манчестер Сіті Олександр Зінченко поділився емоціями від звитяги "містян" над ПСЖ у матчі 1/2 фіналу Ліги чемпіонів.\n' +
+      '"Половина шляху. Наступного тижня ще один поєдинок. Вперед, "блакитні", – написав Зінченко у своєму Instagram.\n' +
+      'Нагадаємо, саме вихід українця дозволив Манчестер Сіті перевернути хід гри. Після передачі Олександра відзначився Де Брюйне, а пізніше Марез ударом зі штрафного приніс перемогу "містянам".\n' +
+      'До слова, Манчестер Сіті вирвав перемогу над ПСЖ (2:1) у першому півфіналі Ліги чемпіонів. Матч-відповідь запланований на 4 травня, початок о 22:00.\n' +
+      '<a href="https://football24.ua/pszh__manchester_siti_zinchenko_otsiniv_triumf_mistyan_u_pershomu_pivfinali_ligi_chempioniv_n660975/">Football24.ua</a>'
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660953.jpg',
+    caption: 'Голкіпер Реала Тібо Куртуа скептично оцінив бомбардирські якості форварда Челсі Тімо Вернера.\n' +
+      "У першому таймі 1/2 фіналу ЛЧ (1:1) Вернер із вбивчої позиції не зміг переграти голкіпера Реала. Під час перерви журналісти Get French Football News записали цікавий діалог Тібо Куртуа та іншого нападника Челсі Олі'є Жиру.\n" +
+      '"Який сейв в епізоді з Тімо!", – сказав Жиру. "Все, що я зробив – ось так виставив ногу", – жартівливо відповів Куртуа.\n' +
+      "Нагадаємо, Челсі придбав Вернера за 53 млн євро. З німця часто кепкують щодо його результативності, за 31 матч АПЛ Тімо забив лише 6 м'ячів.\n" +
+      '<a href="https://football24.ua/real__chelsi_kurtua_posmiyavsya_z_vluchnosti_vernera_u_perervi_pivfinalu_ligi_chempioniv_n660953/">Football24.ua</a>'
+  },
+  {
+    immage: 'https://football24.ua/resources/photos/news/600x315_DIR/202104/660942.jpg',
+    caption: 'Нападник збірної Португалії Андре Сілва має шанс перебратись до Мадрида.\n' +
+      'Форвард Айнтрахта Андре Сілва зацікавив Реал, повідомляє Bild.\n' +
+      'Керівництво мадридського клубу готове заплатити "орлам" за португальця 40 млн євро. Щоб зекономити на трансфері Реал хоче продати Айнтрахту за 20 млн свого нападника Луку Йовіча, який наразі виступає за німецький клуб на правах оренди. Нагадаємо, у 2019-му мадридці придбали Йовіча у Айнтрахта за 63 млн євро.\n' +
+      'У нинішньому сезоні Бундесліги Сілва провів 29 матчів, в яких відзначився 25-ма голами.\n' +
+      '<a href="https://football24.ua/real_natsilivsya_na_shhe_odnogo_forvarda_ayntrahta__yovich_mozhe_stati_chastinoyu_ugodi_n660942/">Football24.ua</a>'
+  },
+  {
+    immage: 'https://sport.24tv.ua/resources/photos/news/202104/1612630.jpg?1619672646000',
+    caption: 'Чотириразовий чемпіон світу з Росії наклав на себе руки - 24 Канал\n' +
+      '<a href="https://sport.24tv.ua/roman-geyzel-naklav-sebe-ruki-prichina-novini-rosiyi_n1612630">24tv.ua</a>'
+  },
+  {
+    immage: 'https://sport.24tv.ua/resources/photos/news/202104/1612617.jpg?1619672062000',
+    caption: 'Починається кінозал, – Скрипник знищив арбітрів після поразки Зорі - 24 Канал\n' +
+      '<a href="https://sport.24tv.ua/viktor-skripnik-znishhiv-arbitriv-pislya-porazki-novini-futbolu_n1612617">24tv.ua</a>'
+  },
+  {
+    immage: 'https://www.sports.ru/dynamic_images/news/109/658/507/2/share/c610a1.jpg',
+    caption: '«Спартак» интересуется хавбеком «Бенфики» Шикинью - Sports.ru\n' +
+      '<a href="https://www.sports.ru/football/1096585072-spartak-interesuetsya-xavbekom-benfiki-shikinyu.html">Sports.ru</a>'
+  },
+  {
+    immage: 'https://resizer.mail.ru/p/af782f69-3031-58e3-bb7d-8013c031dc2d/op:40/logo:bottom:sport.png/ot:0JLRj9C70YzQsdC1INGB0YLQsNC90LXRgiDRgdC-0L_QtdGA0L3QuNGG0LXQuSDRjdC60YEt0YHQvtC70LjRgdGC0LrQuCDCq9Ci0LDRgtGDwrsg0L3QsCDQv9GA0LDQudC80LXRgNC40LcgwqvQldC00LjQvdC-0Lkg0KDQvtGB0YHQuNC4wrs/AQAGbgbryajJZZ-Id-yoDSnL3HEG4VfIUNzvbhSfhKnKePDFL_mF53X9i7gKtThDMZh4yb4q2HOQaqLhob5UgyERank.jpg',
+    caption: 'Вяльбе станет соперницей экс-солистки «Тату» на праймериз «Единой России» - Спорт Mail.ru\n' +
+      '<a href="https://sportmail.ru/news/skiing/46144386/">Sportmail.ru</a>'
+  },
+  {
+    immage: 'https://img.championat.com/news/social/5/15/4335035.jpg',
+    caption: 'Работал на стекольном заводе, а потом стал тренером-чемпионом. В чём феномен Боба Хартли? - Чемпионат\n' +
+      '<a href="https://www.championat.com/hockey/article-4335035-v-chyom-fenomen-boba-hartli-v-avangarde-pochemu-hartli-privyol-avangard-k-chempionstvu.html">Championat.com</a>'
+  },
+  {
+    immage: 'https://s-cdn.sportbox.ru/images/shares/1200x600/node/89/1346065.jpg',
+    caption: 'В «Крыльях» считают приход Гинера и Бабаева маловероятным - news.Sportbox.ru\n' +
+      '<a href="https://news.sportbox.ru/Vidy_sporta/Futbol/Russia/premier_league/spbnews_NI1346065_V_Kryljah_schitajut_prihod_Ginera_i_Babajeva_maloverojatnym">Sportbox.ru</a>'
+  },
+  {
+    immage: 'https://www.sports.ru/dynamic_images/news/109/658/388/9/share/cced4a.jpg',
+    caption: '«Лейпциг» объявил о назначении Марша из «Зальцбурга» главным тренером со следующего сезона вместо Нагельсманна - Sports.ru\n' +
+      '<a href="https://www.sports.ru/football/1096583889-lejpczig-obyavil-o-naznachenii-marsha-iz-zalczburga-glavnym-trenerom-s.html">Sports.ru</a>'
+  },
+  {
+    immage: 'https://img.championat.com/news2/social/b/90/4334795.jpg',
+    caption: 'Плющев — о финале Кубка Гагарина: однозначно, поражение ЦСКА — тренерское - Чемпионат\n' +
+      '<a href="https://www.championat.com/hockey/news-4334795-plyuschev-o-finale-kubka-gagarina-odnoznachno-porazhenie-cska-trenerskoe.html">Championat.com</a>'
+  },
+  {
+    immage: 'https://img.championat.com/news2/social/b/bd/4335019.jpg',
+    caption: '«Манчестер Сити» повторил достижение «Лидса» в Лиге чемпионов 51-летней давности - Чемпионат\n' +
+      '<a href="https://www.championat.com/football/news-4335019-manchester-siti-povtoril-dostizhenie-lidsa-v-lige-chempionov-51-letnej-davnosti.html">Championat.com</a>'
+  },
+  {
+    immage: 'https://www.sports.ru/dynamic_images/news/109/658/364/9/share/720dcd.jpg',
+    caption: 'Крыховяк – лучший игрок апреля в РПЛ. У него 5 (4+1) очков в 4 матчах - Sports.ru\n' +
+      '<a href="https://www.sports.ru/football/1096583649-kryxovyak-luchshij-igrok-aprelya-v-rpl-u-nego-5-41-ochkov-v-4-matchax.html">Sports.ru</a>'
+  },
+  {
+    immage: 'https://www.sports.ru/dynamic_images/news/109/658/193/2/share/06caf7.jpg',
+    caption: 'Гол Ионова «Зениту» признан лучшим в апреле в РПЛ - Sports.ru\n' +
+      '<a href="https://www.sports.ru/football/1096581932-gol-ionova-zenitu-priznan-luchshim-v-aprele-v-rpl.html">Sports.ru</a>'
+  },
+  {
+    immage: 'https://s0.rbk.ru/v6_top_pics/media/img/1/71/756196758643711.jpg',
+    caption: '«Лейпцигу» предложили взять тренера «Спартака» - РБК Спорт\n' +
+      '<a href="https://sportrbc.ru/news/60899f0b9a79470985af0cb8">Sportrbc.ru</a>'
+  },
+  {
+    immage: 'https://img.championat.com/news2/social/f/f1/4334871.jpg',
+    caption: 'Евгения Медведева показала экипировку, в которой пробежит Московский полумарафон - Чемпионат\n' +
+      '<a href="https://www.championat.com/figureskating/news-4334871-evgeniya-medvedeva-pokazala-ekipirovku-v-kotoroj-probezhit-moskovskij-polumarafon.html">Championat.com</a>'
+  },
+  {
+    immage: 'https://cdn.f1ne.ws/userfiles/latifi/152328.jpg',
+    caption: 'Латифи: Отмена гонки в Канаде – верное решение - Формула 1 на F1News.Ru\n' +
+      '<a href="https://www.f1news.ru/news/f1-152328.html">F1news.ru</a>'
+  },
+  {
+    immage: 'https://ss.sport-express.ru/userfiles/materials/167/1671710/large.jpg',
+    caption: 'НХЛ, регулярный чемпионат: расписание и результаты матчей 29 апреля - Спорт-Экспресс\n' +
+      '<a href="https://www.sport-express.ru/hockey/nhl/news/nhl-matchi-regulyarnogo-chempionata-29-aprelya-2021-goda-raspisanie-i-rezultaty-igr-minnesota-sent-luis-1783273/">Sport-express.ru</a>'
+  },
+  {
+    immage: 'https://s5.cdn.teleprogramma.pro/wp-content/uploads/2021/04/e053e674dacf45a8c8596821ed0f19d5.jpg',
+    caption: 'Плющенко на Мальдивах увлекся хоккеем - Телепрограмма\n' +
+      '<a href="https://teleprogramma.pro/stars/1767620-maldivskie-kanikuly-plyushchenko-na-otdyhe-sygral-v-hokkey-s-synom-i-u3419/">Teleprogramma.pro</a>'
+  },
+  {
+    immage: 'https://radiokp.ru/sites/default/files/styles/kp_670_446/public/2021-04/imgonline-com-ua-resize-ilonkjcuec9.jpg?itok=fMACb9H_',
+    caption: '«Мне бы не наложить на ковер»: Утяшева вспомнила, как впервые выступила с Кабаевой и Чащиной - РАДИО «КОМСОМОЛЬСКАЯ ПРАВДА»\n' +
+      '<a href="https://radiokp.ru/sport/mne-ne-nalozhit-na-kover-utyasheva-vspomnila-kak-vpervye-vystupila-s-kabaevoy-i-chaschinoy_nid407771_au8073au">Radiokp.ru</a>'
+  },
+  {
+    immage: 'https://img.championat.com/news2/social/4/f9/4334851.jpg',
+    caption: 'Неймар рассматривает возможность возвращения в «Барселону» - Чемпионат\n' +
+      '<a href="https://www.championat.com/football/news-4334851-nejmar-rassmatrivaet-vozmozhnost-vozvrascheniya-v-barselonu.html">Championat.com</a>'
+  },
+  {
+    immage: 'https://ixbt.online/gametech/covers/2021/04/29/xHl4K4dd39vLviHup4OE3CcOkB6wS9YmYpCtdJph.jpg',
+    caption: 'Война за эксклюзивность. FIFA потеряла очередную лицензию на именитую команду - iXBT.games\n' +
+      '<a href="https://www.gametech.ru/news/2021/04/29/voina-za-eksklyuzivnost-fifa-poteryala-ocerednuyu-licenziyu-na-imenituyu-komandu">Gametech.ru</a>'
+  },
+  {
+    immage: 'https://s74794.cdn.ngenix.net/m/c935/efdd/8736/4b9b/a9de/07da/a4cf/7783/1200_1200_max.png',
+    caption: 'Девушка из тиндера развела на деньги одного из лучших киберфутболистов России - Sport24.ru - новости спорта онлайн в России и мире\n' +
+      '<a href="https://sport24.ru/news/cybersport/2021-04-29-devushka-iz-tindera-razvela-na-dengi-odnogo-iz-luchshikh-kiberfutbolistov-rossii">Sport24.ru</a>'
+  }
+];
+
+
+test('the data is peanut butter', async () => {
+  await expect(searchInArray(arr1, arr2)).resolves.toStrictEqual(arr3);
+});
