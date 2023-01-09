@@ -33,11 +33,11 @@ setInterval(routFun, 7200000);
 routFun();
 
 async function routFun() {
-    const arrRes = await otvetInChannel(bufer, counter);
-    counter++;
-    bufer = bufer.concat(arrRes);
-    for (let iteratorJ = 0; iteratorJ < arrRes.length; iteratorJ++) {
-      try {
+  const arrRes = await otvetInChannel(bufer, counter);
+  counter++;
+  bufer = bufer.concat(arrRes);
+  for (let iteratorJ = 0; iteratorJ < arrRes.length; iteratorJ++) {
+    try {
       const item = arrRes[iteratorJ];
       if (typeof item.caption === 'string') {
         await sayPhotoKeyboard(chatIdChanelModer2, item.immage, { caption: item.caption });
@@ -81,7 +81,7 @@ async function sayPhotoDefault(chatIdSay, urlPhoto, options) {
     await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
     return;
   }
-  throw new Error ('83. sayPhotoDefault main.js')
+  throw new Error('83. sayPhotoDefault main.js');
 }
 
 async function sayPhotoKeyboard(chatIdSay, urlPhoto, options) {
@@ -104,7 +104,7 @@ async function sayPhotoKeyboard(chatIdSay, urlPhoto, options) {
     await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
     return;
   }
-  throw new Error ('105. sayPhotoKeyboard main.js');
+  throw new Error('105. sayPhotoKeyboard main.js');
 }
 
 async function sayMessageDefault(chatIdSay, messageSay) {
@@ -116,7 +116,7 @@ async function sayMessageDefault(chatIdSay, messageSay) {
     await botTelegram.sendMessage(chatIdSay, messageSay, options);
     return;
   }
-  throw new Error ('116. sayMessageDefault main.js');
+  throw new Error('116. sayMessageDefault main.js');
 }
 
 async function sayMessageKeyboard(chatIdSay, messageSay) {
@@ -138,7 +138,7 @@ async function sayMessageKeyboard(chatIdSay, messageSay) {
     await botTelegram.sendMessage(chatIdSay, messageSay, optionsNew);
     return;
   }
-  throw new Error ('137. sayMessageKeyboard main.js');
+  throw new Error('137. sayMessageKeyboard main.js');
 }
 
 
