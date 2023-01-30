@@ -1,1 +1,1 @@
-02/10/2022 - bottelegramapi -on heroku-22
+02/10/2022 - bottelegramapi
