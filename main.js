@@ -3,6 +3,7 @@ const TelegramBot         = require('node-telegram-bot-api');
 //const zaprosFootball      = require('./requestAllFootball.js');
 const otvetInChannel      = require('./lib/otvetInChannel.js');
 const ENV                 = require('./conf/env.js');
+const routeMSG            = require('./lib/routeMSG.js');
 
 //------Telegram
 const token               = ENV.TokenTelegram;
@@ -12,21 +13,15 @@ const chatIdChanelModer2  = ENV.chatIdChanelModer2;    // Кilya
 let bufer                 = [];
 let counter               = 0;
 
-
 const botTelegram = new TelegramBot(token, { polling: true });
 
+
 botTelegram.onText(/(.+)/, async (msg) => {
-  const chatId          = msg.chat.id;
-  let arrRes;
-  if (chatId !== chatIdChanelModer2) {
-    console.log('20. msg.text ', msg.text);
-    arrRes = await routFun();
-    console.log('arrRes-------------------------- ', arrRes);
-  } else {
-    console.log('23. msg.text ', msg.text);
-  }
-  bufer = bufer.concat(arrRes);
+  routeMSG(msg);
+  //arrRes = await routFun();
+  //bufer = bufer.concat(arrRes);
 });
+
 setInterval(routFun, 7200000);
 //setInterval(routFun, 450000);
 
