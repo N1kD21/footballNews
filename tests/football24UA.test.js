@@ -1,22 +1,24 @@
+/* eslint-disable no-undef */
 'use strict';
 
-const zapitDoFootball24UA = require('../lib/football24UA.js');
+const zapit = require('../lib/football24UA.js');
 
 
 
 test('the data is peanut butter', async () => {
-    await expect(zapitDoFootball24UA({
-        source: { 
-            name: "Valera Loh"
-        },
-        url: 'https://sport.ua/uk/news/535455-po-oboyudnomu-soglasiyu-storon-shinder-pokinul-minay'
-    })).resolves.toStrictEqual({
-        nameResourse: "Valera Loh",
-        author: undefined,
-        zagolovok: 'За обопільною згодою сторін. Шиндер залишив Минай \n Форвард забив 3 голи за «Минай», який займає останнє місце в УПЛ',
-        linkArticle: 'https://sport.ua/uk/news/535455-po-oboyudnomu-soglasiyu-storon-shinder-pokinul-minay',
-        immageUrl: 'https://pic.sport.ua/images/news/0/13/77/orig_535455.jpg',
-        dataPublished: undefined
-      });
+  await expect(zapit({
+    source: {
+      name: 'Valera Loh'
+    },
+    url: 'https://football24.ua/mudrik_ta_inshi_novachki_chelsi_vzhe_znayut_verdikt_trenera_na_pley_off_ligi_chempioniv_bude_kilka_nezruchnih_rozmov_n758169/'
+  })).resolves.toStrictEqual({
+    nameResourse: 'Valera Loh',
+    author: undefined,
+    // eslint-disable-next-line max-len
+    zagolovok: 'Мудрик та інші новачки Челсі вже знають вердикт тренера на плей-офф Ліги чемпіонів: "Буде кілька незручних розмов" \n Головний тренер Челсі Грем Поттер був змушений ухвалювати непросте рішення щодо заявки на плей-офф Ліги чемпіонів.',
+    linkArticle: 'https://football24.ua/mudrik_ta_inshi_novachki_chelsi_vzhe_znayut_verdikt_trenera_na_pley_off_ligi_chempioniv_bude_kilka_nezruchnih_rozmov_n758169/',
+    immageUrl: 'https://football24.ua/resources/photos/news/202302/758169.jpg?202302104625&w=1200&h=675&q=65',
+    dataPublished: undefined
+  });
 });
-  
+
