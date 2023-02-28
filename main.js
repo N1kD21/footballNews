@@ -1,6 +1,5 @@
 'use strict';
 const TelegramBot         = require('node-telegram-bot-api');
-//const zaprosFootball      = require('./requestAllFootball.js');
 const otvetInChannel      = require('./lib/otvetInChannel.js');
 const ENV                 = require('./conf/env.js');
 const routeMSG            = require('./lib/routeMSG.js');
@@ -23,7 +22,6 @@ botTelegram.onText(/(.+)/, async (msg) => {
 });
 
 setInterval(routFun, 7200000);
-//setInterval(routFun, 450000);
 
 routFun();
 
