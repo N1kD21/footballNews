@@ -1,138 +1,22 @@
 'use strict';
 const TelegramBot         = require('node-telegram-bot-api');
-const otvetInChannel      = require('./lib/otvetInChannel.js');
 const ENV                 = require('./conf/env.js');
-const routeMSG            = require('./lib/routeMSG.js');
+const routeMSG            = require('./botT/routeMSG.js');
+const sayMessageDefault   = require('./botT/sayMessageDefault.js');
+const sayPhotoDefault     = require('./botT/sayPhotoDefault.js');
 
 //------Telegram
 const token               = ENV.TokenTelegram;
 const chatIdChanelNews    = ENV.chatIdChanelNews;
-const chatIdChanelModer2  = ENV.chatIdChanelModer2;    // Кilya
-//const chatIdChanelModer   = ENV.chatIdChanelModer;  //Вalera
-let bufer                 = [];
-let counter               = 0;
 
 const botTelegram = new TelegramBot(token, { polling: true });
 
 
 botTelegram.onText(/(.+)/, async (msg) => {
-  routeMSG(msg);
-  //arrRes = await routFun();
-  //bufer = bufer.concat(arrRes);
+  routeMSG(botTelegram, msg.chat.id, msg.text);
 });
 
-setInterval(routFun, 7200000);
-
-routFun();
-
-async function routFun() {
-  const arrRes = await otvetInChannel(bufer, counter);
-  counter++;
-  bufer = bufer.concat(arrRes);
-  for (let iteratorJ = 0; iteratorJ < arrRes.length; iteratorJ++) {
-    try {
-      const item = arrRes[iteratorJ];
-      if (typeof item.caption === 'string') {
-        await sayPhotoKeyboard(chatIdChanelModer2, item.immage, { caption: item.caption });
-      } else {
-        let iteratorJ = 0;
-        let capt = '';
-        for (let i = 0; i < item.caption.length; i++) {
-          if (i === 0) {
-            await sayPhotoKeyboard(chatIdChanelModer2, item.immage, { caption: item.caption[0] });
-          } else {
-            capt = capt.concat(item.caption[i]);
-            if (i === item.caption.length - 1) {
-              await sayMessageKeyboard(chatIdChanelModer2, capt);
-              iteratorJ++;
-            }
-            if (iteratorJ === 4) {
-              await sayMessageKeyboard(chatIdChanelModer2, capt);
-              iteratorJ = 0;
-              capt = '';
-            }
-          }
-        }
-      }
-    } catch (e) {
-      console.log('Error \n', e);
-    }
-  }
-  return bufer;
-}
-
-async function sayPhotoDefault(chatIdSay, urlPhoto, options) {
-  if (options === undefined) {
-    options = {};
-  } else {
-    options = {
-      caption: options.caption,
-      'parse_mode': 'HTML'
-    };
-  }
-  if (chatIdSay !== null || urlPhoto !== null) {
-    await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
-    return;
-  }
-  throw new Error('83. sayPhotoDefault main.js');
-}
-
-async function sayPhotoKeyboard(chatIdSay, urlPhoto, options) {
-  options = {
-    caption: options.caption,
-    'parse_mode': 'HTML',
-    'disable_web_page_preview': true,
-    'reply_markup': {
-      'inline_keyboard': [
-        [
-          {
-            text: 'Утвердить статью',
-            'callback_data': 'Утверждение статьи'
-          }
-        ]
-      ]
-    }
-  };
-  if (chatIdSay !== null || urlPhoto !== null || options !== null) {
-    await botTelegram.sendPhoto(chatIdSay, urlPhoto, options);
-    return;
-  }
-  throw new Error('105. sayPhotoKeyboard main.js');
-}
-
-async function sayMessageDefault(chatIdSay, messageSay) {
-  const options = {
-    'disable_web_page_preview': true,
-    'parse_mode': 'HTML'
-  };
-  if (chatIdSay !== null || messageSay !== null || options !== null) {
-    await botTelegram.sendMessage(chatIdSay, messageSay, options);
-    return;
-  }
-  throw new Error('116. sayMessageDefault main.js');
-}
-
-async function sayMessageKeyboard(chatIdSay, messageSay) {
-  const optionsNew = {
-    'disable_web_page_preview': true,
-    'parse_mode': 'HTML',
-    'reply_markup': {
-      'inline_keyboard': [
-        [
-          {
-            text: 'Утвердить статью',
-            'callback_data': 'Утверждение статьи'
-          }
-        ]
-      ]
-    }
-  };
-  if (chatIdSay !== null || messageSay !== null || optionsNew !== null) {
-    await botTelegram.sendMessage(chatIdSay, messageSay, optionsNew);
-    return;
-  }
-  throw new Error('137. sayMessageKeyboard main.js');
-}
+require('./lib/routeChannel.js')(botTelegram);
 
 
 botTelegram.on('callback_query', async (msg) => {
